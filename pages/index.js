@@ -1,17 +1,13 @@
 import { useSession, signOut, signIn } from "next-auth/react";
-import useSWR from "swr";
-import { getTopArtists, getSavedTracks } from "@/lib/spotify";
+import spotifyApi from "@/lib/spotify";
 
 export default function Home() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  console.log("status", status);
+  if (status === "authenticated") {
+    console.log("session", session);
+  }
 
-  const { data: topArtists, isLoading: isLoadingTopArtists } = useSWR(
-    "/api/spotify/top-artists"
-  );
-  if (isLoadingTopArtists) return;
-  getTopArtists();
-  // getSavedTracks();
-  console.log(session);
   return (
     <main>
       <h1>Spotify Dashboard</h1>

@@ -1,56 +1,58 @@
 import NextAuth from "next-auth/next";
 import SpotifyProvider from "next-auth/providers/spotify";
-import { spotifyApi } from "@/lib/spotify";
+import spotifyApi, { LOGIN_URL } from "@/lib/spotify";
+
+async function refreshAccessToken(token) {
+  try {
+    spotifyApi.setAccessToken(token.accessToken);
+    spotifyApi.setRefreshToken(token.refreshToken);
+
+    const { body: refreshedToken } = await spotifyApi.refreshAccessToken();
+    console.log("REFRESHED TOKEN IS", refreshedToken);
+
+    return {
+      ...token,
+      accessToken: refreshedToken.accessToken,
+      accessTokenExpires: Date.now() + refreshedToken.expires_in * 1000,
+      refreshToken: refreshedToken.refresh_token ?? token.refreshToken,
+    };
+  } catch (error) {
+    console.error(error);
+    return { ...token, error: "RefreshAccessTokenError" };
+  }
+}
 
 export const authOptions = {
   providers: [
     SpotifyProvider({
       clientId: process.env.SPOTIFY_CLIENT_ID,
       clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-      sope: "user-library-read user-read-playback-state user-read-currently-playing user-top-read",
+      authorization: LOGIN_URL,
     }),
   ],
   callbacks: {
-    // async signIn(user, account, profile) {
-    //   if (account.provider === "spotify") {
-    //     const accessToken = account.accessToken;
-    //     spotifyApi.setAccessToken(accessToken);
-    //   }
-    //   return true;
-    // },
-
-    // async jwt(token) {
-    //   console.log("token", token.account.access_token);
-
-    //   const accessToken = await token.account.access_token;
-    //   if (token.account.provider === "spotify")
-    //     spotifyApi.setAccessToken(accessToken);
-    // },
-    // async jwt({ token, account, profile }) {
-    //   // Persist the OAuth access_token and or the user id to the token right after signin
-    //   if (account) {
-    //     token.accessToken = account.access_token;
-    //     token.id = profile.id;
-    //   }
-    //   //   console.log("token.accessToken", token.accessToken);
-    //   //   console.log("token", token);
-    //   spotifyApi.setAccessToken(token.accessToken);
-    //   return token;
-    //},
-
-    async session({ session, token, user }) {
-      // Send properties to the client, like an access_token and user id from a provider.
-      session.accessToken = token.accessToken;
-      session.user.id = token.id;
+    async jwt({ token, account, user }) {
+      if (account && user) {
+        return {
+          ...token,
+          accessToken: account.access_token,
+          refreshToken: account.refresh_token,
+          username: account.providerAccountId,
+          accessTokenExpires: account.expires_at * 1000,
+        };
+      }
+      if (Date.now() < token.accessTokenExpires) {
+        return token;
+      }
+      return await refreshAccessToken(token);
+    },
+    async session({ session, token }) {
+      session.user.accessToken = token.accessToken;
+      session.user.refreshToken = token.refreshToken;
+      session.user.username = token.username;
 
       return session;
     },
-
-    // async session(session, token, user) {
-    //   console.log("session", session);
-    //   console.log("token", token);
-    //   console.log("user", user);
-    // },
   },
 };
 
