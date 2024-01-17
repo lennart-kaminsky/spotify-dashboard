@@ -8,12 +8,19 @@ export default function CurrentTrack() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [currentTrack, setCurrentTrack] = useState({});
+  const [currentlyPlayingType, setCurrentlyPlayingType] = useState("");
 
   useEffect(() => {
     async function getCurrentTrack() {
       try {
         if (mySpotifyApi.getAccessToken()) {
           const playbackState = await mySpotifyApi.getMyCurrentPlaybackState();
+
+          if (playbackState.body?.currently_playing_type) {
+            setCurrentlyPlayingType(playbackState.body.currently_playing_type);
+          } else {
+            setCurrentlyPlayingType("");
+          }
 
           if (playbackState.body?.is_playing) {
             setCurrentTrack(playbackState.body.item);
@@ -34,26 +41,30 @@ export default function CurrentTrack() {
   return (
     <StyledPlayer>
       <h2>
-        {Object.keys(currentTrack).length !== 0
+        {currentlyPlayingType === "track" &&
+        Object.keys(currentTrack).length !== 0
           ? "You're listening to"
+          : currentlyPlayingType === "episode"
+          ? "You're listening to a podcast"
           : "You're not listening to any song"}
       </h2>
-      {Object.keys(currentTrack).length !== 0 && (
-        <StyledPlayerContainer>
-          <StyledImage
-            src={currentTrack?.album.images[0].url}
-            alt="album cover"
-            width={640}
-            height={640}
-            priority
-          />
-          <p>
-            {currentTrack.artists.map((artist) => artist.name) +
-              " - " +
-              currentTrack.name}
-          </p>
-        </StyledPlayerContainer>
-      )}
+      {currentlyPlayingType === "track" &&
+        Object.keys(currentTrack).length !== 0 && (
+          <StyledPlayerContainer>
+            <StyledImage
+              src={currentTrack?.album.images[0].url}
+              alt="album cover"
+              width={640}
+              height={640}
+              priority
+            />
+            <p>
+              {currentTrack.artists.map((artist) => artist.name) +
+                " - " +
+                currentTrack.name}
+            </p>
+          </StyledPlayerContainer>
+        )}
     </StyledPlayer>
   );
 }
