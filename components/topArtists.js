@@ -26,7 +26,7 @@ export default function TopArtists() {
 
   return (
     <StyledTopContainer>
-      <h2>You{"'"}re Top Artists</h2>
+      <h2>Your Top Artists</h2>
       <ol>
         {topArtists.map((artist) => (
           <li key={artist.id}>{artist.name}</li>

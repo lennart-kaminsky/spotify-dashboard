@@ -26,7 +26,7 @@ export default function TopTracks() {
 
   return (
     <StyledTopContainer>
-      <h2>You{"'"}re Top Tracks</h2>
+      <h2>Your Top Tracks</h2>
       <ol>
         {topTracks.map((track) => (
           <li key={track.id}>{track.name}</li>
