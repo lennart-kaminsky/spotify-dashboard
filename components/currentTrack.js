@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import styled from "styled-components";
 import useSpotify from "@/hooks/useSpotify";
+import styled from "styled-components";
+import { devices } from "@/styles/devices";
 
 export default function CurrentTrack() {
   const { data: session } = useSession();
@@ -110,12 +111,24 @@ const StyledSongContainer = styled.div`
     font-size: 0.7rem;
     padding-block-end: 0.1rem;
   }
+
+  @media screen and (min-width: ${devices.desktop + "px"}) {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
 `;
 const StyledTrack = styled.span`
   font-size: 1rem;
   color: var(--fontColor);
+  @media screen and (min-width: ${devices.desktop + "px"}) {
+    font-size: 1.6rem;
+  }
 `;
 const StyledArtist = styled.span`
   font-size: 0.7rem;
   color: var(--accentColor);
+  @media screen and (min-width: ${devices.desktop + "px"}) {
+    font-size: 1.6rem;
+  }
 `;

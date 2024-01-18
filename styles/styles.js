@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { Rubik } from "next/font/google";
-import lightenDarkenColor from "./utils/darkenColor";
+import lightenDarkenColor from "@/utils/darkenColor";
 
 const rubik = Rubik({
   subsets: ["latin"],
