@@ -26,13 +26,20 @@ export default function TimeRange({ timeRange, onTimeRange }) {
 }
 const StlyedTimeRangeContainer = styled.div`
   display: flex;
-  gap: 1rem;
+  padding-block-start: 0.5rem;
+  gap: 0.5rem;
 `;
 
 const StyledTimeRangeButton = styled.button`
+  width: 90px;
   background-color: transparent;
-  border: none;
-  padding-inline: 0;
-  color: white;
-  color: ${({ $active }) => ($active ? "var(--hColor)" : "white")};
+  border: ${({ $active }) =>
+    $active ? "1px solid var(--hColor)" : "1px solid var(--fontColor)"};
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.5rem;
+  color: ${({ $active }) => ($active ? "var(--hColor)" : "var(--fontColor)")};
+  &:hover {
+    border: 1px solid var(--hColor);
+    color: var(--hColor);
+  }
 `;

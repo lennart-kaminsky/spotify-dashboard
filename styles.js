@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { Rubik } from "next/font/google";
+import lightenDarkenColor from "./utils/darkenColor";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -30,7 +31,9 @@ export default createGlobalStyle`
   --fontItalic: ${rubikItalic.style.fontFamily};
 
   --bgColor: #4000EA;
-  --fontColor: #CCEB00;
+  --bgDarker: ${lightenDarkenColor("#4000EA", -48)};
+  --fontColor: #FFFFFF;
+  --accentColor: #CCEB00;
   --hColor: #D800EB;
 }
 
@@ -41,7 +44,7 @@ html {
 body {
   background-color: var(--bgColor);
   font-family: var(--fontRegular);
-  color: white;
+  color: var(--fontColor);
   height: 100%;
   margin: 0;
   padding: 2%; 
@@ -70,12 +73,12 @@ header {
 main {
   overflow: auto; 
   height: 100%;
-  padding-block: 30px 100px;
+  padding-block: 40px 100px;
 }
 
 h1, h2, h3 {
   font-family: var(--fontBold);
-  color: var(--fontColor);
+  color: var(--accentColor);
   text-transform: uppercase;
   margin: 0;
 }

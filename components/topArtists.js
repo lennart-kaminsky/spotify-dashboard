@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
-import {
-  NoStyleButton,
-  NoStyleListItem,
-  StyledTopContainer,
-} from "@/components/top.Styled";
+import { NoStyleButton, NoStyleListItem } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
 
 export default function TopArtists() {
@@ -37,8 +33,7 @@ export default function TopArtists() {
   }, [session, mySpotifyApi, timeRange, limit]);
 
   return (
-    <StyledTopContainer>
-      <h2>Your Top Artists</h2>
+    <>
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <ol>
         {topArtists.map((artist) => (
@@ -60,6 +55,6 @@ export default function TopArtists() {
           </NoStyleListItem>
         )}
       </ol>
-    </StyledTopContainer>
+    </>
   );
 }
