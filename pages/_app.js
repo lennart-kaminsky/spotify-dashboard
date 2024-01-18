@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
-import GlobalStyle from "@/styles";
+import GlobalStyle from "@/styles/styles";
 import Header from "@/components/header";
 
 export default function App({ Component, pageProps }) {
