@@ -22,7 +22,7 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 -960 960 960"
                 width="50"
-                fill="var(--fontColor)"
+                fill="var(--accentColor)"
               >
                 <title>cancel</title>
                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
@@ -36,9 +36,7 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
               />
             ) : (
               <StyledAccountDiv>
-                <StyledAccountLetter>
-                  {Array.from(session.user.name)[0]}
-                </StyledAccountLetter>
+                <span>{Array.from(session.user.name)[0]}</span>
               </StyledAccountDiv>
             )}
           </NoStylesButton>
@@ -73,7 +71,7 @@ const StyledAccountDiv = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  background-color: var(--fontColor);
+  background-color: var(--accentColor);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -83,12 +81,6 @@ const StyledAccountDiv = styled.div`
   &:hover,
   :active {
     background-color: var(--hColor);
-    color: var(--fontColor);
+    color: var(--accentColor);
   }
-`;
-
-const StyledAccountLetter = styled.span`
-  /* font-size: 1.5rem;
-  font-family: var(--fontBold);
-  color: var(--hColor); */
 `;

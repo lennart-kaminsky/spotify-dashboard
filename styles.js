@@ -30,7 +30,8 @@ export default createGlobalStyle`
   --fontItalic: ${rubikItalic.style.fontFamily};
 
   --bgColor: #4000EA;
-  --fontColor: #CCEB00;
+  --fontColor: #FFFFFF;
+  --accentColor: #CCEB00;
   --hColor: #D800EB;
 }
 
@@ -41,7 +42,7 @@ html {
 body {
   background-color: var(--bgColor);
   font-family: var(--fontRegular);
-  color: white;
+  color: var(--fontColor);
   height: 100%;
   margin: 0;
   padding: 2%; 
@@ -75,7 +76,7 @@ main {
 
 h1, h2, h3 {
   font-family: var(--fontBold);
-  color: var(--fontColor);
+  color: var(--accentColor);
   text-transform: uppercase;
   margin: 0;
 }

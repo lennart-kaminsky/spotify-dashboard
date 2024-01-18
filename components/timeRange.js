@@ -33,6 +33,6 @@ const StyledTimeRangeButton = styled.button`
   background-color: transparent;
   border: none;
   padding-inline: 0;
-  color: white;
-  color: ${({ $active }) => ($active ? "var(--hColor)" : "white")};
+  color: var(--fontColor);
+  color: ${({ $active }) => ($active ? "var(--hColor)" : "var(--fontColor)")};
 `;

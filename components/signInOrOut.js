@@ -29,14 +29,14 @@ const StyledSignIn = styled.section`
 const StyledLogInButton = styled.button`
   padding: 0.7rem 2rem;
   font-size: 1rem;
-  border: 2px solid var(--fontColor);
+  border: 2px solid var(--accentColor);
   border-radius: 0.5rem;
   background-color: transparent;
-  color: var(--fontColor);
+  color: var(--accentColor);
   &:hover,
   :active {
     border: none;
     color: var(--bgColor);
-    background-color: var(--fontColor);
+    background-color: var(--accentColor);
   }
 `;
