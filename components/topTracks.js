@@ -1,11 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
-import {
-  NoStyleButton,
-  NoStyleListItem,
-  StyledTopContainer,
-} from "@/components/top.Styled";
+import { NoStyleButton, NoStyleListItem } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
 import styled from "styled-components";
 
@@ -39,7 +35,6 @@ export default function TopTracks() {
 
   return (
     <>
-      {/* <h2>Your Top Tracks</h2> */}
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <ol>
         {topTracks.map((track) => (

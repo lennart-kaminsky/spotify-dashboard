@@ -1,5 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 import { Rubik } from "next/font/google";
+import lightenDarkenColor from "./utils/darkenColor";
 
 const rubik = Rubik({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default createGlobalStyle`
   --fontItalic: ${rubikItalic.style.fontFamily};
 
   --bgColor: #4000EA;
+  --bgDarker: ${lightenDarkenColor("#4000EA", -48)};
   --fontColor: #FFFFFF;
   --accentColor: #CCEB00;
   --hColor: #D800EB;

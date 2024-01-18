@@ -43,52 +43,44 @@ export default function CurrentTrack() {
     return () => clearInterval(intervalId);
   }, [session, mySpotifyApi]);
 
-  console.log("currentTrack", currentTrack);
-  console.log("playbackState", playbackState);
-  console.log("recentlyPlayed", recentlyPlayedTrack);
+  const isReady = Object.keys(recentlyPlayedTrack).length;
 
-  const isReady =
-    Object.keys(playbackState).length > 0 &&
-    Object.keys(recentlyPlayedTrack).length;
+  const isPlayingTrack =
+    playbackState &&
+    playbackState.is_playing &&
+    playbackState.currently_playing_type === "track";
 
   return (
-    <>
-      {/* <h2>
-        {playbackState.currently_playing_type === "track" &&
-        Object.keys(currentTrack).length !== 0
-          ? "You're listening to"
-          : playbackState.currently_playing_type === "episode"
-          ? "You're listening to a podcast"
-          : "You're not listening to any song"}
-      </h2> */}
-      <StyledPlayer>
-        {playbackState.currently_playing_type === "track" &&
-        Object.keys(currentTrack).length !== 0 ? (
-          <>
-            <StyledImage
-              src={currentTrack?.album.images[0].url}
-              alt="album cover"
-              width={640}
-              height={640}
-              priority
-            />
-            <StyledSongContainer>
-              <h2>Listening to</h2>
-              <span>
-                {currentTrack.name + " "}
-                <StyledArtist>
-                  {currentTrack.artists.map((artist) => artist.name)}
-                </StyledArtist>
-              </span>
-            </StyledSongContainer>
-          </>
-        ) : playbackState.currently_playing_type == "episode" ? (
-          <h2>Listening to a podcast</h2>
-        ) : (
-          <h2>Not listening to anything</h2>
-        )}
-      </StyledPlayer>
-    </>
+    <StyledPlayer>
+      {isReady && (
+        <>
+          <StyledImage
+            src={
+              isPlayingTrack
+                ? currentTrack?.album.images[0].url
+                : recentlyPlayedTrack?.album.images[0].url
+            }
+            alt="album cover"
+            width={640}
+            height={640}
+            priority
+          />
+          <StyledSongContainer>
+            <h2>{isPlayingTrack ? "playing " : "recently "}</h2>
+            <StyledTrack>
+              {isPlayingTrack
+                ? currentTrack.name + " "
+                : recentlyPlayedTrack.name + " "}
+            </StyledTrack>
+            <StyledArtist>
+              {isPlayingTrack
+                ? currentTrack.artists.map((artist) => artist.name)
+                : recentlyPlayedTrack.artists.map((artist) => artist.name)}
+            </StyledArtist>
+          </StyledSongContainer>
+        </>
+      )}
+    </StyledPlayer>
   );
 }
 
@@ -101,12 +93,12 @@ const StyledPlayer = styled.section`
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: var(--bgDarker);
 `;
 
 const StyledImage = styled(Image)`
-  width: 50px;
-  height: 50px;
+  width: 55px;
+  height: 55px;
 `;
 
 const StyledSongContainer = styled.div`
@@ -114,11 +106,16 @@ const StyledSongContainer = styled.div`
   flex-direction: column;
   gap: 0.1rem;
   h2 {
-    font-size: 1rem;
+    text-transform: none;
+    font-size: 0.7rem;
+    padding-block-end: 0.1rem;
   }
 `;
-
+const StyledTrack = styled.span`
+  font-size: 1rem;
+  color: var(--fontColor);
+`;
 const StyledArtist = styled.span`
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   color: var(--accentColor);
 `;
