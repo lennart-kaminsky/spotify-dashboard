@@ -1,5 +1,4 @@
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import styled from "styled-components";
 
 export default function Header({ showUserInfo, onToggleUserInfo }) {

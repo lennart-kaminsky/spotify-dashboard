@@ -4,11 +4,7 @@ const nextConfig = {
     styledComponents: true,
   },
   images: {
-    domains: [
-      "i.scdn.co",
-      "scontent-frx5-1.xx.fbcdn.net",
-      "*.googleusercontent.com",
-    ],
+    domains: ["i.scdn.co"],
   },
   reactStrictMode: true,
 };
