@@ -37,8 +37,6 @@ export default function TopTracks() {
     getTopTracks();
   }, [session, mySpotifyApi, timeRange, limit]);
 
-  console.log(topTracks);
-
   return (
     <StyledTopContainer>
       <h2>Your Top Tracks</h2>
