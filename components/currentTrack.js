@@ -8,49 +8,63 @@ export default function CurrentTrack() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [currentTrack, setCurrentTrack] = useState({});
-  const [currentlyPlayingType, setCurrentlyPlayingType] = useState("");
+  const [playbackState, setCurrentlyPlayingType] = useState({});
+  const [recentlyPlayedTrack, setRecentlyPlayedTrack] = useState({});
 
   useEffect(() => {
     async function getCurrentTrack() {
       try {
         if (mySpotifyApi.getAccessToken()) {
-          const playbackState = await mySpotifyApi.getMyCurrentPlaybackState();
+          const _playbackState = await mySpotifyApi.getMyCurrentPlaybackState();
 
-          if (playbackState.body?.currently_playing_type) {
-            setCurrentlyPlayingType(playbackState.body.currently_playing_type);
+          if (_playbackState) {
+            setCurrentlyPlayingType(_playbackState.body);
           } else {
-            setCurrentlyPlayingType("");
+            setCurrentlyPlayingType({});
           }
-
-          if (playbackState.body?.is_playing) {
-            setCurrentTrack(playbackState.body.item);
+          if (_playbackState.body?.is_playing) {
+            setCurrentTrack(_playbackState.body.item);
           } else {
             setCurrentTrack({});
           }
+          const recentlyPlayed = await mySpotifyApi.getMyRecentlyPlayedTracks({
+            limit: 1,
+          });
+          setRecentlyPlayedTrack(recentlyPlayed.body.items[0].track);
         }
       } catch (error) {
         console.error("Something went wrong!", error);
       }
     }
+
     getCurrentTrack();
 
     const intervalId = setInterval(getCurrentTrack, 5000);
     return () => clearInterval(intervalId);
   }, [session, mySpotifyApi]);
 
+  console.log("currentTrack", currentTrack);
+  console.log("playbackState", playbackState);
+  console.log("recentlyPlayed", recentlyPlayedTrack);
+
+  const isReady =
+    Object.keys(playbackState).length > 0 &&
+    Object.keys(recentlyPlayedTrack).length;
+
   return (
-    <StyledPlayer>
-      <h2>
-        {currentlyPlayingType === "track" &&
+    <>
+      {/* <h2>
+        {playbackState.currently_playing_type === "track" &&
         Object.keys(currentTrack).length !== 0
           ? "You're listening to"
-          : currentlyPlayingType === "episode"
+          : playbackState.currently_playing_type === "episode"
           ? "You're listening to a podcast"
           : "You're not listening to any song"}
-      </h2>
-      {currentlyPlayingType === "track" &&
-        Object.keys(currentTrack).length !== 0 && (
-          <StyledPlayerContainer>
+      </h2> */}
+      <StyledPlayer>
+        {playbackState.currently_playing_type === "track" &&
+        Object.keys(currentTrack).length !== 0 ? (
+          <>
             <StyledImage
               src={currentTrack?.album.images[0].url}
               alt="album cover"
@@ -58,36 +72,53 @@ export default function CurrentTrack() {
               height={640}
               priority
             />
-            <p>
-              {currentTrack.artists.map((artist) => artist.name) +
-                " - " +
-                currentTrack.name}
-            </p>
-          </StyledPlayerContainer>
+            <StyledSongContainer>
+              <h2>Listening to</h2>
+              <span>
+                {currentTrack.name + " "}
+                <StyledArtist>
+                  {currentTrack.artists.map((artist) => artist.name)}
+                </StyledArtist>
+              </span>
+            </StyledSongContainer>
+          </>
+        ) : playbackState.currently_playing_type == "episode" ? (
+          <h2>Listening to a podcast</h2>
+        ) : (
+          <h2>Not listening to anything</h2>
         )}
-    </StyledPlayer>
+      </StyledPlayer>
+    </>
   );
 }
 
 const StyledPlayer = styled.section`
   position: fixed;
   bottom: 0;
-  background-color: var(--bgColor);
   width: 100%;
-  padding-block-start: 0.7rem;
-  h2 {
-    font-size: 1rem;
-  }
-`;
-
-const StyledPlayerContainer = styled.div`
+  margin-inline: -2%;
+  padding: 0.6rem 2% 0.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  padding-block: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.3);
 `;
 
 const StyledImage = styled(Image)`
   width: 50px;
   height: 50px;
+`;
+
+const StyledSongContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  h2 {
+    font-size: 1rem;
+  }
+`;
+
+const StyledArtist = styled.span`
+  font-size: 0.9rem;
+  color: var(--accentColor);
 `;

@@ -71,7 +71,7 @@ header {
 main {
   overflow: auto; 
   height: 100%;
-  padding-block: 30px 100px;
+  padding-block: 40px 100px;
 }
 
 h1, h2, h3 {

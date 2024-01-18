@@ -38,8 +38,8 @@ export default function TopTracks() {
   }, [session, mySpotifyApi, timeRange, limit]);
 
   return (
-    <StyledTopContainer>
-      <h2>Your Top Tracks</h2>
+    <>
+      {/* <h2>Your Top Tracks</h2> */}
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <ol>
         {topTracks.map((track) => (
@@ -63,7 +63,7 @@ export default function TopTracks() {
           </NoStyleListItem>
         )}
       </ol>
-    </StyledTopContainer>
+    </>
   );
 }
 

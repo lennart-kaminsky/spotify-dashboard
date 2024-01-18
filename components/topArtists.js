@@ -37,8 +37,8 @@ export default function TopArtists() {
   }, [session, mySpotifyApi, timeRange, limit]);
 
   return (
-    <StyledTopContainer>
-      <h2>Your Top Artists</h2>
+    <>
+      {/* <h2>Your Top Artists</h2> */}
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <ol>
         {topArtists.map((artist) => (
@@ -60,6 +60,6 @@ export default function TopArtists() {
           </NoStyleListItem>
         )}
       </ol>
-    </StyledTopContainer>
+    </>
   );
 }
