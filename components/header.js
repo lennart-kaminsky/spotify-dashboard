@@ -28,12 +28,7 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
               </StyledSVG>
             ) : session.user.image ? (
-              <StyledImage
-                src={session.user.image}
-                alt="account photo"
-                height={300}
-                width={300}
-              />
+              <StyledImage src={session.user.image} alt="account photo" />
             ) : (
               <StyledAccountDiv>
                 <span>{Array.from(session.user.name)[0]}</span>
@@ -57,7 +52,7 @@ const StyledSVG = styled.svg`
   }
 `;
 
-const StyledImage = styled(Image)`
+const StyledImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 100%;
