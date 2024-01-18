@@ -56,6 +56,7 @@ const StyledImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 100%;
+  object-fit: cover;
   &:hover,
   :active {
     border: 4px solid var(--hColor);
