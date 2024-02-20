@@ -94,7 +94,7 @@ const StyledPlayer = styled.section`
   display: flex;
   align-items: center;
   gap: 1rem;
-  background-color: var(--bgDarker);
+  background-color: ${({ theme }) => theme.bgDarker};
 `;
 
 const StyledImage = styled(Image)`
@@ -120,14 +120,14 @@ const StyledSongContainer = styled.div`
 `;
 const StyledTrack = styled.span`
   font-size: 1rem;
-  color: var(--fontColor);
+  color: ${({ theme }) => theme.fontColor};
   @media screen and (min-width: ${devices.desktop + "px"}) {
     font-size: 1.6rem;
   }
 `;
 const StyledArtist = styled.span`
   font-size: 0.7rem;
-  color: var(--accentColor);
+  color: ${({ theme }) => theme.accentColor};
   @media screen and (min-width: ${devices.desktop + "px"}) {
     font-size: 1.6rem;
   }

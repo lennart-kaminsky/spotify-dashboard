@@ -6,5 +6,5 @@ export const NoStyleListItem = styled.li`
 
 export const NoStyleButton = styled.button`
   all: unset;
-  color: var(--hColor);
+  color: ${({ theme }) => theme.hColor};
 `;

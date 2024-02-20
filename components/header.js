@@ -21,7 +21,6 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 -960 960 960"
                 width="50"
-                fill="var(--accentColor)"
               >
                 <title>cancel</title>
                 <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
@@ -45,9 +44,10 @@ const NoStylesButton = styled.button`
 `;
 
 const StyledSVG = styled.svg`
+  fill: ${({ theme }) => theme.accentColor};
   :hover,
   :active {
-    fill: var(--hColor);
+    fill: ${({ theme }) => theme.hColor};
   }
 `;
 
@@ -58,7 +58,7 @@ const StyledImage = styled.img`
   object-fit: cover;
   &:hover,
   :active {
-    border: 4px solid var(--hColor);
+    border: ${({ theme }) => "4px solid " + theme.hColor};
   }
 `;
 
@@ -66,16 +66,16 @@ const StyledAccountDiv = styled.div`
   width: 50px;
   height: 50px;
   border-radius: 100%;
-  background-color: var(--accentColor);
+  background-color: ${({ theme }) => theme.accentColor};
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 1.5rem;
   font-family: var(--fontBold);
-  color: var(--hColor);
+  color: ${({ theme }) => theme.hColor};
   &:hover,
   :active {
-    background-color: var(--hColor);
-    color: var(--accentColor);
+    background-color: ${({ theme }) => theme.hColor};
+    color: ${({ theme }) => theme.accentColor};
   }
 `;
