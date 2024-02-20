@@ -8,7 +8,7 @@ import TopTracks from "@/components/topTracks";
 import { devices } from "@/styles/devices";
 import styled, { css } from "styled-components";
 
-export default function Home({ showUserInfo }) {
+export default function Home({ showUserInfo, theme, onSetTheme }) {
   const { data: session } = useSession();
   const [showArtists, setShowArtists] = useState(true);
   const screenSize = useScreenSize();
@@ -17,7 +17,7 @@ export default function Home({ showUserInfo }) {
     <main>
       {session ? (
         showUserInfo ? (
-          <SigninOrOut />
+          <SigninOrOut theme={theme} onSetTheme={onSetTheme} />
         ) : (
           <>
             <StyledTopContainer>
@@ -57,7 +57,7 @@ export default function Home({ showUserInfo }) {
           </>
         )
       ) : (
-        <SigninOrOut signingIn />
+        <SigninOrOut signingIn theme={theme} onSetTheme={onSetTheme} />
       )}
     </main>
   );
@@ -77,17 +77,17 @@ const StyledTopWrapper = styled.div`
 
 const StyledArtistTrackButton = styled.button`
   all: unset;
-  color: var(--hColor);
+  color: ${({ theme }) => theme.hColor};
   ${({ $active }) =>
     $active &&
     css`
       font-size: 1rem;
-      color: var(--accentColor);
-      text-decoration: line-through 2px var(--hColor);
+      color: ${({ theme }) => theme.accentColor};
+      text-decoration: ${({ theme }) => "line-through 2px " + theme.hColor};
     `}
   @media (hover: hover) {
     &:hover {
-      color: var(--hColor);
+      color: ${({ theme }) => theme.hColor};
       text-decoration: none;
     }
   }

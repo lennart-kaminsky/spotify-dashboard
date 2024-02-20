@@ -33,13 +33,13 @@ const StlyedTimeRangeContainer = styled.div`
 const StyledTimeRangeButton = styled.button`
   width: 90px;
   background-color: transparent;
-  border: ${({ $active }) =>
-    $active ? "1px solid var(--hColor)" : "1px solid var(--fontColor)"};
+  border: ${({ $active, theme }) =>
+    $active ? "1px solid " + theme.hColor : "1px solid " + theme.fontColor};
   border-radius: 0.2rem;
   padding: 0.2rem 0.5rem;
-  color: ${({ $active }) => ($active ? "var(--hColor)" : "var(--fontColor)")};
+  color: ${({ $active, theme }) => ($active ? theme.hColor : theme.fontColor)};
   &:hover {
-    border: 1px solid var(--hColor);
-    color: var(--hColor);
+    border: ${({ theme }) => "1px solid " + theme.hColor};
+    color: ${({ theme }) => theme.hColor};
   }
 `;

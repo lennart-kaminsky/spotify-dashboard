@@ -1,7 +1,8 @@
 import { signIn, signOut } from "next-auth/react";
 import styled from "styled-components";
+import ThemeButton from "./button";
 
-export default function SigninOrOut({ signingIn }) {
+export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
   function signInOrOut() {
     if (signingIn) {
       signIn();
@@ -9,6 +10,24 @@ export default function SigninOrOut({ signingIn }) {
   }
   return (
     <StyledSignIn>
+      <h2>colors</h2>
+      <StyledThemeContainer>
+        <ThemeButton
+          theme={theme}
+          colorTheme={"mainTheme"}
+          onSetTheme={onSetTheme}
+        ></ThemeButton>
+        <ThemeButton
+          theme={theme}
+          colorTheme={"lightTheme"}
+          onSetTheme={onSetTheme}
+        ></ThemeButton>
+        <ThemeButton
+          theme={theme}
+          colorTheme={"darkTheme"}
+          onSetTheme={onSetTheme}
+        ></ThemeButton>
+      </StyledThemeContainer>
       <StyledLogInButton onClick={() => signInOrOut()}>
         {signingIn ? "Sign in" : "Sign out"}
       </StyledLogInButton>
@@ -39,17 +58,24 @@ const StyledSignIn = styled.section`
   padding-inline: 2rem;
 `;
 
+const StyledThemeContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem;
+`;
+
 const StyledLogInButton = styled.button`
   padding: 0.7rem 2rem;
   font-size: 1rem;
-  border: 2px solid var(--accentColor);
+  border: ${({ theme }) => "2px solid " + theme.accentColor};
   border-radius: 0.5rem;
   background-color: transparent;
-  color: var(--accentColor);
+  color: ${({ theme }) => theme.accentColor};
   &:hover,
   :active {
-    color: var(--bgColor);
-    background-color: var(--accentColor);
+    color: ${({ theme }) => theme.bgColor};
+    background-color: ${({ theme }) => theme.accentColor};
   }
 `;
 

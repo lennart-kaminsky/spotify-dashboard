@@ -18,6 +18,33 @@ const rubikItalic = Rubik({
   style: "italic",
 });
 
+export const mainTheme = {
+  title: "mainTheme",
+  bgColor: "#4000EA",
+  bgDarker: lightenDarkenColor("#4000EA", -48),
+  fontColor: "#FFFFFF",
+  accentColor: "#CCEB00",
+  hColor: "#D800EB",
+};
+
+export const lightTheme = {
+  title: "lightTheme",
+  bgColor: "#f0edee",
+  bgDarker: lightenDarkenColor("#f0edee", -48),
+  fontColor: "#0a090c",
+  accentColor: "#07393c",
+  hColor: "#2c666e",
+};
+
+export const darkTheme = {
+  title: "darkTheme",
+  bgColor: "#171F26",
+  bgDarker: "#0c1114", //lightenDarkenColor("#171F26", -48),
+  fontColor: "#f0edee",
+  accentColor: "#72828C",
+  hColor: "#8F9BA6",
+};
+
 export default createGlobalStyle`
 *,
 *::before,
@@ -29,12 +56,6 @@ export default createGlobalStyle`
   --fontRegular: ${rubik.style.fontFamily};
   --fontBold: ${rubikBold.style.fontFamily};
   --fontItalic: ${rubikItalic.style.fontFamily};
-
-  --bgColor: #4000EA;
-  --bgDarker: ${lightenDarkenColor("#4000EA", -48)};
-  --fontColor: #FFFFFF;
-  --accentColor: #CCEB00;
-  --hColor: #D800EB;
 }
 
 html {
@@ -42,9 +63,9 @@ html {
 }
 
 body {
-  background-color: var(--bgColor);
+  background-color: ${({ theme }) => theme.bgColor};
   font-family: var(--fontRegular);
-  color: var(--fontColor);
+  color: ${({ theme }) => theme.fontColor};
   height: 100%;
   margin: 0;
   padding: 2%; 
@@ -63,7 +84,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--bgColor);
+  background-color: ${({ theme }) => theme.bgColor};
   h1 {
     display: inline-block;
     font-size: 1.5rem;
@@ -78,17 +99,17 @@ main {
 
 h1, h2, h3 {
   font-family: var(--fontBold);
-  color: var(--accentColor);
+  color: ${({ theme }) => theme.accentColor};
   text-transform: uppercase;
   margin: 0;
 }
 
 a {
   text-decoration: none;
-  color: var(--accentColor);
+  color: ${({ theme }) => theme.accentColor};
   @media (hover: hover) {
     &:hover {
-      color: var(--hColor);
+      color: ${({ theme }) => theme.hColor};
     }
   }
 }

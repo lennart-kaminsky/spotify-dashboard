@@ -63,6 +63,6 @@ export default function TopTracks() {
 }
 
 const StyledArtist = styled.span`
-  color: var(--accentColor);
+  color: ${({ theme }) => theme.accentColor};
   font-size: 0.8rem;
 `;
