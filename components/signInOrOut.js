@@ -12,6 +12,19 @@ export default function SigninOrOut({ signingIn }) {
       <StyledLogInButton onClick={() => signInOrOut()}>
         {signingIn ? "Sign in" : "Sign out"}
       </StyledLogInButton>
+      {signingIn && (
+        <StyledWarning>
+          This app is still in{" "}
+          <a
+            href="https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
+            target="_blank"
+          >
+            Spotify Development mode
+          </a>
+          .<br></br> Your spotify mail address must be added manually by the
+          developer to enable you to log in.
+        </StyledWarning>
+      )}
     </StyledSignIn>
   );
 }
@@ -35,8 +48,12 @@ const StyledLogInButton = styled.button`
   color: var(--accentColor);
   &:hover,
   :active {
-    border: none;
     color: var(--bgColor);
     background-color: var(--accentColor);
   }
+`;
+
+const StyledWarning = styled.p`
+  font-size: 0.7rem;
+  margin: 1rem;
 `;

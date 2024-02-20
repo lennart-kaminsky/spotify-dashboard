@@ -82,4 +82,14 @@ h1, h2, h3 {
   text-transform: uppercase;
   margin: 0;
 }
+
+a {
+  text-decoration: none;
+  color: var(--accentColor);
+  @media (hover: hover) {
+    &:hover {
+      color: var(--hColor);
+    }
+  }
+}
 `;

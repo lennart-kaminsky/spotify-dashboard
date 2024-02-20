@@ -6,7 +6,7 @@ import SigninOrOut from "@/components/signInOrOut";
 import TopArtists from "@/components/topArtists";
 import TopTracks from "@/components/topTracks";
 import { devices } from "@/styles/devices";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export default function Home({ showUserInfo }) {
   const { data: session } = useSession();
@@ -77,14 +77,14 @@ const StyledTopWrapper = styled.div`
 
 const StyledArtistTrackButton = styled.button`
   all: unset;
-  text-decoration: ${({ $active }) =>
-    $active ? "line-through 3px var(--hColor)" : "none"};
-
-  :tap {
-    color: var(--hColor);
-    text-decoration: none;
-  }
-
+  color: var(--hColor);
+  ${({ $active }) =>
+    $active &&
+    css`
+      font-size: 1rem;
+      color: var(--accentColor);
+      text-decoration: line-through 2px var(--hColor);
+    `}
   @media (hover: hover) {
     &:hover {
       color: var(--hColor);
