@@ -39,9 +39,9 @@ export const lightTheme = {
 export const darkTheme = {
   title: "darkTheme",
   bgColor: "#171F26",
-  bgDarker: "#0c1114", //lightenDarkenColor("#171F26", -48),
+  bgDarker: "#0c1114",
   fontColor: "#f0edee",
-  accentColor: "#72828C",
+  accentColor: "#8499bf",
   hColor: "#8F9BA6",
 };
 
@@ -79,7 +79,7 @@ header {
   position: fixed;
   top: 0;
   margin-inline: -2%;
-  padding: 0.5rem 2%;
+  padding: 0.4rem 2% 0.2rem;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -92,9 +92,8 @@ header {
 }
 
 main {
-  overflow: auto; 
   height: 100%;
-  padding-block: 40px 100px;
+  padding-block: 30px 0;
 }
 
 h1, h2, h3 {

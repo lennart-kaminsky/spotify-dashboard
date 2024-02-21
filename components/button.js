@@ -31,6 +31,11 @@ const StyledThemeButton = styled.button`
       : "1px solid " + theme.accentColor};
   display: flex;
   margin-block-end: 1rem;
+  @media (hover: hover) {
+    &:hover {
+      cursor: ${({ $activeTheme }) => !$activeTheme && "pointer"};
+    }
+  }
 `;
 
 const StyledColorContainer = styled.div`

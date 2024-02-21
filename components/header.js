@@ -12,7 +12,10 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
             <h1>{session.user.name}</h1>
           </>
         ) : (
-          <h1>Spotify Dashboard</h1>
+          <StyledHeadlineContainer>
+            <h1>Spotify Dashboard</h1>
+            <StyledSlogan>i still skip over songs</StyledSlogan>
+          </StyledHeadlineContainer>
         )}
         {session && (
           <NoStylesButton onClick={() => onToggleUserInfo()}>
@@ -39,15 +42,34 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
   );
 }
 
+const StyledHeadlineContainer = styled.hgroup`
+  position: relative;
+`;
+
+const StyledSlogan = styled.p`
+  position: absolute;
+  bottom: -0.5rem;
+  font-size: 0.7rem;
+  color: ${({ theme }) => theme.hColor};
+  margin: 0;
+  padding: 0;
+`;
+
 const NoStylesButton = styled.button`
   all: unset;
+  display: flex;
 `;
 
 const StyledSVG = styled.svg`
   fill: ${({ theme }) => theme.accentColor};
-  :hover,
-  :active {
+  &:active {
     fill: ${({ theme }) => theme.hColor};
+  }
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      fill: ${({ theme }) => theme.hColor};
+    }
   }
 `;
 
@@ -56,9 +78,14 @@ const StyledImage = styled.img`
   height: 50px;
   border-radius: 100%;
   object-fit: cover;
-  &:hover,
-  :active {
+  &:active {
     border: ${({ theme }) => "4px solid " + theme.hColor};
+  }
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      border: ${({ theme }) => "4px solid " + theme.hColor};
+    }
   }
 `;
 
@@ -73,9 +100,15 @@ const StyledAccountDiv = styled.div`
   font-size: 1.5rem;
   font-family: var(--fontBold);
   color: ${({ theme }) => theme.hColor};
-  &:hover,
-  :active {
+  &:active {
     background-color: ${({ theme }) => theme.hColor};
     color: ${({ theme }) => theme.accentColor};
+  }
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      background-color: ${({ theme }) => theme.hColor};
+      color: ${({ theme }) => theme.accentColor};
+    }
   }
 `;
