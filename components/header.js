@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 import styled from "styled-components";
 
 export default function Header({ showUserInfo, onToggleUserInfo }) {
@@ -6,6 +7,20 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
 
   return (
     <>
+      <Head>
+        <title>i still skip over songs</title>
+        <meta charset="UTF-8" />
+        <meta
+          name="description"
+          content="This is a Spotify dashboard that shows your listening habits like top artists and songs for different time ranges or the songs you currently listened to."
+        />
+        <meta property="og:title" content="i still skip over songs" />
+        <meta
+          property="og:description"
+          content="This is a Spotify dashboard that shows your listening habits like top artists and songs for different time ranges or the songs you currently listened to."
+        />
+        <meta property="og:image" content="/images/istillskipoversongs.png" />
+      </Head>
       <header>
         {showUserInfo ? (
           <>

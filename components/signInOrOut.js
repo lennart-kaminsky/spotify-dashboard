@@ -19,12 +19,12 @@ export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
         ></ThemeButton>
         <ThemeButton
           theme={theme}
-          colorTheme={"lightTheme"}
+          colorTheme={"darkTheme"}
           onSetTheme={onSetTheme}
         ></ThemeButton>
         <ThemeButton
           theme={theme}
-          colorTheme={"darkTheme"}
+          colorTheme={"lightTheme"}
           onSetTheme={onSetTheme}
         ></ThemeButton>
       </StyledThemeContainer>
