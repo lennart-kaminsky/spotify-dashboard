@@ -9,7 +9,7 @@ import getTheme from "@/utils/getTheme";
 export default function App({ Component, pageProps }) {
   const [showUserInfo, setShowUserInfo] = useState(false);
   const [theme, setTheme] = useLocalStorageState("theme", {
-    defaultValue: "mainTheme",
+    defaultValue: "darkTheme",
   });
 
   function handleToggleUserInfo() {

@@ -10,7 +10,7 @@ export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
   }
   return (
     <StyledSignIn>
-      <h2>colors</h2>
+      <h2>colours</h2>
       <StyledThemeContainer>
         <ThemeButton
           theme={theme}
@@ -19,12 +19,12 @@ export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
         ></ThemeButton>
         <ThemeButton
           theme={theme}
-          colorTheme={"lightTheme"}
+          colorTheme={"darkTheme"}
           onSetTheme={onSetTheme}
         ></ThemeButton>
         <ThemeButton
           theme={theme}
-          colorTheme={"darkTheme"}
+          colorTheme={"lightTheme"}
           onSetTheme={onSetTheme}
         ></ThemeButton>
       </StyledThemeContainer>
@@ -56,6 +56,7 @@ const StyledSignIn = styled.section`
   justify-content: center;
   text-align: center;
   padding-inline: 2rem;
+  padding-block-end: 10%;
 `;
 
 const StyledThemeContainer = styled.div`
@@ -72,10 +73,16 @@ const StyledLogInButton = styled.button`
   border-radius: 0.5rem;
   background-color: transparent;
   color: ${({ theme }) => theme.accentColor};
-  &:hover,
   :active {
     color: ${({ theme }) => theme.bgColor};
     background-color: ${({ theme }) => theme.accentColor};
+  }
+  @media (hover: hover) {
+    &:hover {
+      cursor: pointer;
+      color: ${({ theme }) => theme.bgColor};
+      background-color: ${({ theme }) => theme.accentColor};
+    }
   }
 `;
 

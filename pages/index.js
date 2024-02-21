@@ -70,25 +70,24 @@ const StyledTopContainer = styled.section`
     justify-content: space-evenly;
   }
 `;
+
 const StyledTopWrapper = styled.div`
   width: 50%;
-  padding-inline: 10%;
 `;
 
 const StyledArtistTrackButton = styled.button`
   all: unset;
-  color: ${({ theme }) => theme.hColor};
   ${({ $active }) =>
     $active &&
     css`
       font-size: 1rem;
-      color: ${({ theme }) => theme.accentColor};
-      text-decoration: ${({ theme }) => "line-through 2px " + theme.hColor};
-    `}
-  @media (hover: hover) {
-    &:hover {
       color: ${({ theme }) => theme.hColor};
-      text-decoration: none;
-    }
-  }
+      @media (hover: hover) {
+        &:hover {
+          cursor: pointer;
+          color: ${({ theme }) => theme.accentColor};
+          text-decoration: none;
+        }
+      }
+    `}
 `;
