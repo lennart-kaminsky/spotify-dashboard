@@ -9,7 +9,7 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
     <>
       <Head>
         <title>i still skip over songs</title>
-        <meta charset="UTF-8" />
+        <meta charSet="UTF-8" />
         <meta
           name="description"
           content="This is a Spotify dashboard that shows your listening habits like top artists and songs for different time ranges or the songs you currently listened to."

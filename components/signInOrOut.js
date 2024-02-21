@@ -50,7 +50,10 @@ export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
         </StyledParagraph>
         <StyledParagraph>
           developed by{" "}
-          <a href="https://github.com/lennart-kaminsky"> lennski 🤙</a>
+          <a href="https://github.com/lennart-kaminsky" target="_blank">
+            {" "}
+            lennski 🤙
+          </a>
         </StyledParagraph>
       </StyledParagraphContainer>
     </StyledSignIn>
