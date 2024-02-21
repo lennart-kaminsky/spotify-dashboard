@@ -31,19 +31,28 @@ export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
       <StyledLogInButton onClick={() => signInOrOut()}>
         {signingIn ? "Sign in" : "Sign out"}
       </StyledLogInButton>
-      {signingIn && (
-        <StyledWarning>
-          This app is still in{" "}
-          <a
-            href="https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
-            target="_blank"
-          >
-            Spotify Development mode
-          </a>
-          .<br></br> Your spotify mail address must be added manually by the
-          developer to enable you to log in.
-        </StyledWarning>
-      )}
+      <StyledParagraphContainer>
+        {signingIn && (
+          <StyledParagraph>
+            this app is still in{" "}
+            <a
+              href="https://developer.spotify.com/documentation/web-api/concepts/quota-modes"
+              target="_blank"
+            >
+              Spotify development mode
+            </a>
+            .<br></br> your spotify mail address must be added manually by the
+            developer to enable you to log in.
+          </StyledParagraph>
+        )}
+        <StyledParagraph>
+          this app does not collect or analyze personal data.
+        </StyledParagraph>
+        <StyledParagraph>
+          developed by{" "}
+          <a href="https://github.com/lennart-kaminsky"> lennski 🤙</a>
+        </StyledParagraph>
+      </StyledParagraphContainer>
     </StyledSignIn>
   );
 }
@@ -62,12 +71,13 @@ const StyledSignIn = styled.section`
 const StyledThemeContainer = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
+  column-gap: 1rem;
   margin: 1rem;
 `;
 
 const StyledLogInButton = styled.button`
   padding: 0.7rem 2rem;
+  margin-block-start: 1rem;
   font-size: 1rem;
   border: ${({ theme }) => "2px solid " + theme.accentColor};
   border-radius: 0.5rem;
@@ -86,7 +96,14 @@ const StyledLogInButton = styled.button`
   }
 `;
 
-const StyledWarning = styled.p`
+const StyledParagraphContainer = styled.div`
+  position: absolute;
+  bottom: 1rem;
+  margin-block-start: 4rem;
+`;
+
+const StyledParagraph = styled.p`
   font-size: 0.7rem;
-  margin: 1rem;
+  padding-inline: 1rem;
+  margin: 0.4rem;
 `;

@@ -30,7 +30,6 @@ const StyledThemeButton = styled.button`
       ? "3px solid " + theme.accentColor
       : "1px solid " + theme.accentColor};
   display: flex;
-  margin-block-end: 1rem;
   @media (hover: hover) {
     &:hover {
       cursor: ${({ $activeTheme }) => !$activeTheme && "pointer"};
