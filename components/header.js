@@ -19,7 +19,10 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
           property="og:description"
           content="This is a Spotify dashboard that shows your listening habits like top artists and songs for different time ranges or the songs you currently listened to."
         />
-        <meta property="og:image" content="/images/istillskipoversongs.png" />
+        <meta
+          property="og:image"
+          content="https://www.istillskipoversongs.com/images/istillskipoversongs.png"
+        />
       </Head>
       <header>
         {showUserInfo ? (
