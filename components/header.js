@@ -21,7 +21,7 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
         />
         <meta
           property="og:image"
-          content="https://www.istillskipoversongs.com/images/istillskipoversongs.png"
+          content={process.env.NEXTAUTH_URL + "images/istillskipoversongs.png"}
         />
       </Head>
       <header>
