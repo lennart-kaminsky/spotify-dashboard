@@ -41,7 +41,6 @@ export default function TopTracks() {
     getTopTracks();
   }, [session, mySpotifyApi, timeRange, limit]);
 
-  console.log(topTracks);
   return (
     <>
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
