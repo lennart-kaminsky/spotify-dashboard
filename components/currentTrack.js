@@ -75,8 +75,20 @@ export default function CurrentTrack() {
             </StyledTrack>
             <StyledArtist>
               {isPlayingTrack
-                ? currentTrack.artists.map((artist) => artist.name)
-                : recentlyPlayedTrack.artists.map((artist) => artist.name)}
+                ? currentTrack.artists.map((artist, index) => {
+                    if (index === 0) {
+                      return artist.name;
+                    } else {
+                      return ", " + artist.name;
+                    }
+                  })
+                : recentlyPlayedTrack.artists.map((artist, index) => {
+                    if (index === 0) {
+                      return artist.name;
+                    } else {
+                      return ", " + artist.name;
+                    }
+                  })}
             </StyledArtist>
           </StyledSongContainer>
         </>
