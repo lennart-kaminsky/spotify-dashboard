@@ -4,7 +4,10 @@ import useSpotify from "@/hooks/useSpotify";
 import {
   NoStyleButton,
   NoStyleListItem,
+  StyledListImage,
   StyledTopList,
+  StyledTopNumber,
+  StyledTopNumberContainer,
   TopListItem,
 } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
@@ -38,22 +41,34 @@ export default function TopTracks() {
     getTopTracks();
   }, [session, mySpotifyApi, timeRange, limit]);
 
+  console.log(topTracks);
   return (
     <>
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <StyledTopList>
-        {topTracks.map((track) => (
+        {topTracks.map((track, index) => (
           <TopListItem key={track.id}>
-            {track.name + " "}
-            <StyledArtist>
-              {track?.artists.map((artist, index) => {
-                if (index === 0) {
-                  return artist.name;
-                } else {
-                  return ", " + artist.name;
-                }
-              })}
-            </StyledArtist>
+            <StyledListImage
+              src={track.album.images[0].url}
+              alt="Record cover"
+              width={50}
+              height={50}
+            />
+            <StyledTrackInfo>
+              <span>{track.name + " "}</span>
+              <StyledArtist>
+                {track?.artists.map((artist, index) => {
+                  if (index === 0) {
+                    return artist.name;
+                  } else {
+                    return ", " + artist.name;
+                  }
+                })}
+              </StyledArtist>
+            </StyledTrackInfo>
+            <StyledTopNumberContainer>
+              <StyledTopNumber>{index + 1}</StyledTopNumber>
+            </StyledTopNumberContainer>
           </TopListItem>
         ))}
         {topTracks.length > 20 && (
@@ -74,6 +89,11 @@ export default function TopTracks() {
     </>
   );
 }
+
+const StyledTrackInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
 
 const StyledArtist = styled.span`
   color: ${({ theme }) => theme.accentColor};

@@ -4,7 +4,10 @@ import useSpotify from "@/hooks/useSpotify";
 import {
   NoStyleButton,
   NoStyleListItem,
+  StyledListImage,
   StyledTopList,
+  StyledTopNumber,
+  StyledTopNumberContainer,
   TopListItem,
 } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
@@ -41,8 +44,19 @@ export default function TopArtists() {
     <>
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <StyledTopList>
-        {topArtists.map((artist) => (
-          <TopListItem key={artist.id}>{artist.name}</TopListItem>
+        {topArtists.map((artist, index) => (
+          <TopListItem key={artist.id}>
+            <StyledListImage
+              src={artist.images[0].url}
+              alt="Picture of the artist"
+              width={50}
+              height={50}
+            />
+            <span>{artist.name}</span>
+            <StyledTopNumberContainer>
+              <StyledTopNumber>{index + 1}</StyledTopNumber>
+            </StyledTopNumberContainer>
+          </TopListItem>
         ))}
 
         {topArtists.length > 20 && (
