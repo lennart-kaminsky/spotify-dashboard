@@ -45,7 +45,15 @@ export default function TopTracks() {
         {topTracks.map((track) => (
           <TopListItem key={track.id}>
             {track.name + " "}
-            <StyledArtist>{track?.artists[0].name}</StyledArtist>
+            <StyledArtist>
+              {track?.artists.map((artist, index) => {
+                if (index === 0) {
+                  return artist.name;
+                } else {
+                  return ", " + artist.name;
+                }
+              })}
+            </StyledArtist>
           </TopListItem>
         ))}
         {topTracks.length > 20 && (
