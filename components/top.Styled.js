@@ -1,4 +1,6 @@
+import { devices } from "@/styles/devices";
 import Image from "next/image";
+import Link from "next/link";
 import styled from "styled-components";
 
 export const StyledTopList = styled.ol`
@@ -6,7 +8,7 @@ export const StyledTopList = styled.ol`
   height: 100%;
   width: 100%;
   overflow: scroll;
-  padding-inline: 0 5px;
+  padding-inline: 0 2%;
   padding-block-end: 250px;
   margin-block-start: 0.5rem;
 `;
@@ -17,6 +19,27 @@ export const TopListItem = styled.li`
   align-items: center;
   gap: 1rem;
   margin-block-end: 0.5rem;
+`;
+
+export const StyledListItemLink = styled(Link)`
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-inline-end: 2%;
+  margin-block-end: 0.5rem;
+  border-radius: 5px;
+  color: ${({ theme }) => theme.fontColor};
+  transition: background-color 0.7s;
+  @media screen and (min-width: ${devices.desktop + "px"}) {
+    width: 40%;
+  }
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${({ theme }) => theme.bgDarker};
+      color: ${({ theme }) => theme.fontColor};
+    }
+  }
 `;
 
 export const NoStyleListItem = styled.li`

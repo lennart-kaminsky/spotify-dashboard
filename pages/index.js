@@ -76,6 +76,7 @@ const StyledTopWrapper = styled.div`
 
 const StyledArtistTrackButton = styled.button`
   all: unset;
+  transition: font-size 0.5s;
   ${({ $active }) =>
     $active &&
     css`

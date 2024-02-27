@@ -5,12 +5,14 @@ import {
   NoStyleButton,
   NoStyleListItem,
   StyledListImage,
+  StyledListItemLink,
   StyledTopList,
   StyledTopNumber,
   StyledTopNumberContainer,
   TopListItem,
 } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
+import Link from "next/link";
 
 export default function TopArtists() {
   const { data: session } = useSession();
@@ -45,18 +47,20 @@ export default function TopArtists() {
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <StyledTopList>
         {topArtists.map((artist, index) => (
-          <TopListItem key={artist.id}>
-            <StyledListImage
-              src={artist.images[0].url}
-              alt="Picture of the artist"
-              width={50}
-              height={50}
-            />
-            <span>{artist.name}</span>
-            <StyledTopNumberContainer>
-              <StyledTopNumber>{index + 1}</StyledTopNumber>
-            </StyledTopNumberContainer>
-          </TopListItem>
+          <li key={artist.id}>
+            <StyledListItemLink href={`/artists/${artist.id}`}>
+              <StyledListImage
+                src={artist.images[0].url}
+                alt="Picture of the artist"
+                width={50}
+                height={50}
+              />
+              <span>{artist.name}</span>
+              <StyledTopNumberContainer>
+                <StyledTopNumber>{index + 1}</StyledTopNumber>
+              </StyledTopNumberContainer>
+            </StyledListItemLink>
+          </li>
         ))}
 
         {topArtists.length > 20 && (

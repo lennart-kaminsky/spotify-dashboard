@@ -38,6 +38,7 @@ const StyledTimeRangeButton = styled.button`
   border-radius: 0.2rem;
   padding: 0.2rem 0.5rem;
   color: ${({ $active, theme }) => ($active ? theme.hColor : theme.fontColor)};
+  transition: border 1s, color 1s;
   @media (hover: hover) {
     &:hover {
       cursor: pointer;

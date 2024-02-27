@@ -1,11 +1,9 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import Link from "next/link";
 import useSpotify from "@/hooks/useSpotify";
 import styled from "styled-components";
 import { devices } from "@/styles/devices";
 import SigninOrOut from "@/components/signInOrOut";
-import Icon from "@/components/icons";
 import {
   StyledArtist,
   StyledListImage,
@@ -13,6 +11,7 @@ import {
   StyledTrackInfo,
   TopListItem,
 } from "@/components/top.Styled";
+import BackLink from "@/components/backLink";
 
 export default function ListeningHistory({ showUserInfo, theme, onSetTheme }) {
   const { data: session } = useSession();
@@ -51,12 +50,7 @@ export default function ListeningHistory({ showUserInfo, theme, onSetTheme }) {
         ) : (
           <StyledFlexContainer>
             <StyledFixedHeadline>Listening History</StyledFixedHeadline>
-            <StyledLink href="/">
-              <StyledInnerLinkContainer>
-                <StyledIcon variant="back" size="1rem" />
-                Back to Dashboard
-              </StyledInnerLinkContainer>
-            </StyledLink>
+            <BackLink>Back to Dashboard</BackLink>
             <StyledRecentlyList>
               {recentTracksInfo.map((info) => (
                 <StyledRecentlyListItem key={info.played_at}>
@@ -97,31 +91,6 @@ const StyledFlexContainer = styled.div`
     justify-content: center;
     gap: 2rem;
   }
-`;
-
-const StyledLink = styled(Link)`
-  display: inline-block;
-  font-size: 0.8rem;
-  color: ${({ theme }) => theme.hColor};
-  @media screen and (min-width: ${devices.desktop + "px"}) {
-    position: fixed;
-    left: 2%;
-    top: 130px;
-  }
-  @media (hover: hover) {
-    &:hover {
-      letter-spacing: 0.1rem;
-    }
-  }
-`;
-const StyledIcon = styled(Icon)`
-  fill: ${({ theme }) => theme.hColor};
-`;
-
-const StyledInnerLinkContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.2rem;
 `;
 
 const StyledFixedHeadline = styled.h2`

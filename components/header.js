@@ -35,8 +35,8 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
           <StyledHeadlineContainer>
             <Link href="/">
               <h1>Spotify Dashboard</h1>
+              <StyledSlogan>i still skip over songs</StyledSlogan>
             </Link>
-            <StyledSlogan>i still skip over songs</StyledSlogan>
           </StyledHeadlineContainer>
         )}
         {session && (
@@ -59,6 +59,11 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
 
 const StyledHeadlineContainer = styled.hgroup`
   position: relative;
+  @media (hover: hover) {
+    &:hover p {
+      letter-spacing: 0.4rem;
+    }
+  }
 `;
 
 const StyledSlogan = styled.p`
@@ -68,18 +73,28 @@ const StyledSlogan = styled.p`
   color: ${({ theme }) => theme.hColor};
   margin: 0;
   padding: 0;
+  transition: letter-spacing 1s;
 `;
 
 const NoStylesButton = styled.button`
   all: unset;
   display: flex;
+  transition: transform 2s;
+  @media (hover: hover) {
+    &:hover {
+      transform: rotate(360deg);
+    }
+  }
 `;
+
+const StyledCancelIcon = styled(Icon)``;
 
 const StyledImage = styled.img`
   width: 50px;
   height: 50px;
   border-radius: 100%;
   object-fit: cover;
+  transition: border 0.5s;
   &:active {
     border: ${({ theme }) => "4px solid " + theme.hColor};
   }

@@ -16,6 +16,11 @@ const icons = {
     viewBox: "0 -960 960 960",
     path: "m368-417 202 202-90 89-354-354 354-354 90 89-202 202h466v126H368Z",
   },
+  openInNew: {
+    title: "open-in-new",
+    viewBox: "0 -960 960 960",
+    path: "M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h280v80H200v560h560v-280h80v280q0 33-23.5 56.5T760-120H200Zm188-212-56-56 372-372H560v-80h280v280h-80v-144L388-332Z",
+  },
 };
 
 export default function Icon({ variant, size = 50, ...rest }) {

@@ -64,6 +64,7 @@ html {
 
 body {
   background-color: ${({ theme }) => theme.bgColor};
+  transition: background-color 1s;
   font-family: var(--fontRegular);
   color: ${({ theme }) => theme.fontColor};
   height: 100%;
@@ -76,6 +77,8 @@ body {
 }
 
 header {
+  background-color: ${({ theme }) => theme.bgColor};
+  transition: background-color 1s;
   position: fixed;
   top: 0;
   margin-inline: -2%;
@@ -84,7 +87,6 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: ${({ theme }) => theme.bgColor};
   h1 {
     display: inline-block;
     font-size: 1.5rem;
@@ -101,6 +103,7 @@ h1, h2, h3 {
   color: ${({ theme }) => theme.accentColor};
   text-transform: uppercase;
   margin: 0;
+  transition: color 1s;
 }
 
 a {
