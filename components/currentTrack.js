@@ -4,6 +4,8 @@ import Image from "next/image";
 import useSpotify from "@/hooks/useSpotify";
 import styled from "styled-components";
 import { devices } from "@/styles/devices";
+import Icon from "./icons";
+import Link from "next/link";
 
 export default function CurrentTrack() {
   const { data: session } = useSession();
@@ -93,6 +95,9 @@ export default function CurrentTrack() {
           </StyledSongContainer>
         </>
       )}
+      <StyledRecentlyLink href="/listening-history">
+        <Icon variant="recently" size={30} />
+      </StyledRecentlyLink>
     </StyledPlayer>
   );
 }
@@ -112,6 +117,7 @@ const StyledPlayer = styled.section`
 const StyledImage = styled(Image)`
   width: 55px;
   height: 55px;
+  border-radius: 5px;
 `;
 
 const StyledSongContainer = styled.div`
@@ -143,4 +149,8 @@ const StyledArtist = styled.span`
   @media screen and (min-width: ${devices.desktop + "px"}) {
     font-size: 1.6rem;
   }
+`;
+
+const StyledRecentlyLink = styled(Link)`
+  margin-inline-start: auto;
 `;

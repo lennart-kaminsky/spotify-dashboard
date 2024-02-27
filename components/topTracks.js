@@ -8,6 +8,8 @@ import {
   StyledTopList,
   StyledTopNumber,
   StyledTopNumberContainer,
+  StyledTrackInfo,
+  StyledArtist,
   TopListItem,
 } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
@@ -88,13 +90,3 @@ export default function TopTracks() {
     </>
   );
 }
-
-const StyledTrackInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const StyledArtist = styled.span`
-  color: ${({ theme }) => theme.accentColor};
-  font-size: 0.8rem;
-`;

@@ -64,7 +64,6 @@ export default function Home({ showUserInfo, theme, onSetTheme }) {
 }
 
 const StyledTopContainer = styled.section`
-  padding-block-start: 2rem;
   @media screen and (min-width: ${devices.desktop + "px"}) {
     display: flex;
     justify-content: space-evenly;

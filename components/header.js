@@ -1,6 +1,8 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import styled from "styled-components";
+import Icon from "./icons";
+import Link from "next/link";
 
 export default function Header({ showUserInfo, onToggleUserInfo }) {
   const { data: session } = useSession();
@@ -31,21 +33,16 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
           </>
         ) : (
           <StyledHeadlineContainer>
-            <h1>Spotify Dashboard</h1>
+            <Link href="/">
+              <h1>Spotify Dashboard</h1>
+            </Link>
             <StyledSlogan>i still skip over songs</StyledSlogan>
           </StyledHeadlineContainer>
         )}
         {session && (
           <NoStylesButton onClick={() => onToggleUserInfo()}>
             {showUserInfo ? (
-              <StyledSVG
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 -960 960 960"
-                width="50"
-              >
-                <title>cancel</title>
-                <path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
-              </StyledSVG>
+              <Icon variant="cancel" />
             ) : session.user.image ? (
               <StyledImage src={session.user.image} alt="account photo" />
             ) : (
@@ -78,19 +75,6 @@ const NoStylesButton = styled.button`
   display: flex;
 `;
 
-const StyledSVG = styled.svg`
-  fill: ${({ theme }) => theme.accentColor};
-  &:active {
-    fill: ${({ theme }) => theme.hColor};
-  }
-  @media (hover: hover) {
-    &:hover {
-      cursor: pointer;
-      fill: ${({ theme }) => theme.hColor};
-    }
-  }
-`;
-
 const StyledImage = styled.img`
   width: 50px;
   height: 50px;
@@ -117,7 +101,7 @@ const StyledAccountDiv = styled.div`
   align-items: center;
   font-size: 1.5rem;
   font-family: var(--fontBold);
-  color: ${({ theme }) => theme.hColor};
+  color: ${({ theme }) => theme.bgColor};
   &:active {
     background-color: ${({ theme }) => theme.hColor};
     color: ${({ theme }) => theme.accentColor};

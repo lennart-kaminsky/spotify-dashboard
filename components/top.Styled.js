@@ -34,6 +34,16 @@ export const NoStyleButton = styled.button`
   }
 `;
 
+export const StyledTrackInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const StyledArtist = styled.span`
+  color: ${({ theme }) => theme.accentColor};
+  font-size: 0.8rem;
+`;
+
 export const StyledListImage = styled(Image)`
   border-radius: 5px;
 `;

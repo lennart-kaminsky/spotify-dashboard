@@ -93,7 +93,7 @@ header {
 
 main {
   height: 100%;
-  padding-block: 30px 0;
+  padding-block: 3.5rem 0;
 }
 
 h1, h2, h3 {
