@@ -12,7 +12,6 @@ import {
   TopListItem,
 } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
-import Link from "next/link";
 
 export default function TopArtists() {
   const { data: session } = useSession();

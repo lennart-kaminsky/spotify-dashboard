@@ -11,9 +11,9 @@ import {
   StyledTrackInfo,
   StyledArtist,
   TopListItem,
+  StyledListItemLink,
 } from "@/components/top.Styled";
 import TimeRange from "./timeRange";
-import styled from "styled-components";
 
 export default function TopTracks() {
   const { data: session } = useSession();
@@ -48,29 +48,31 @@ export default function TopTracks() {
       <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
       <StyledTopList>
         {topTracks.map((track, index) => (
-          <TopListItem key={track.id}>
-            <StyledListImage
-              src={track.album.images[0].url}
-              alt="Record cover"
-              width={50}
-              height={50}
-            />
-            <StyledTrackInfo>
-              <span>{track.name + " "}</span>
-              <StyledArtist>
-                {track?.artists.map((artist, index) => {
-                  if (index === 0) {
-                    return artist.name;
-                  } else {
-                    return ", " + artist.name;
-                  }
-                })}
-              </StyledArtist>
-            </StyledTrackInfo>
-            <StyledTopNumberContainer>
-              <StyledTopNumber>{index + 1}</StyledTopNumber>
-            </StyledTopNumberContainer>
-          </TopListItem>
+          <li key={track.id}>
+            <StyledListItemLink href={`/tracks/${track.id}`}>
+              <StyledListImage
+                src={track.album.images[0].url}
+                alt="Record cover"
+                width={50}
+                height={50}
+              />
+              <StyledTrackInfo>
+                <span>{track.name + " "}</span>
+                <StyledArtist>
+                  {track?.artists.map((artist, index) => {
+                    if (index === 0) {
+                      return artist.name;
+                    } else {
+                      return ", " + artist.name;
+                    }
+                  })}
+                </StyledArtist>
+              </StyledTrackInfo>
+              <StyledTopNumberContainer>
+                <StyledTopNumber>{index + 1}</StyledTopNumber>
+              </StyledTopNumberContainer>
+            </StyledListItemLink>
+          </li>
         ))}
         {topTracks.length > 20 && (
           <NoStyleListItem>

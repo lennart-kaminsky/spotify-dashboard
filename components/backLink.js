@@ -3,9 +3,9 @@ import Link from "next/link";
 import { devices } from "@/styles/devices";
 import Icon from "./icons";
 
-export default function BackLink({ children, artistpage }) {
+export default function BackLink({ children, infoPage }) {
   return (
-    <StyledLink href="/" $artistpage={artistpage}>
+    <StyledLink href="/" $infoPage={infoPage}>
       <StyledInnerLinkContainer>
         <StyledIcon variant="back" size="1rem" />
         {children}
@@ -22,7 +22,7 @@ const StyledLink = styled(Link)`
   @media screen and (min-width: ${devices.desktop + "px"}) {
     position: fixed;
     left: 2%;
-    top: ${({ $artistpage }) => ($artistpage ? "100px" : "130px")};
+    top: ${({ $infoPage }) => ($infoPage ? "100px" : "130px")};
   }
   @media (hover: hover) {
     &:hover {

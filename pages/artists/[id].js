@@ -1,13 +1,16 @@
-import BackLink from "@/components/backLink";
-import Icon from "@/components/icons";
-import SigninOrOut from "@/components/signInOrOut";
-import useSpotify from "@/hooks/useSpotify";
-import { devices } from "@/styles/devices";
 import { useSession } from "next-auth/react";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
-import styled from "styled-components";
+import useSpotify from "@/hooks/useSpotify";
+import SigninOrOut from "@/components/signInOrOut";
+import BackLink from "@/components/backLink";
+import {
+  StyledHeadlineContainer,
+  StyledInfoContainer,
+  StyledInfoImage,
+  StyledOpenIcon,
+  StyledTable,
+} from "@/components/info.Styled";
 
 export default function Artist({ showUserInfo, theme, onSetTheme }) {
   const { data: session } = useSession();
@@ -42,8 +45,8 @@ export default function Artist({ showUserInfo, theme, onSetTheme }) {
           showUserInfo ? (
             <SigninOrOut theme={theme} onSetTheme={onSetTheme} />
           ) : (
-            <StyledArtistContainer>
-              <StyledArtistImage
+            <StyledInfoContainer>
+              <StyledInfoImage
                 src={artist.images[0].url}
                 alt={`Picture of ${artist.name}`}
                 width={300}
@@ -80,8 +83,8 @@ export default function Artist({ showUserInfo, theme, onSetTheme }) {
                   </tr>
                 </tbody>
               </StyledTable>
-              <BackLink artistpage>Back To Dashboard</BackLink>
-            </StyledArtistContainer>
+              <BackLink infoPage>Back To Dashboard</BackLink>
+            </StyledInfoContainer>
           )
         ) : (
           <SigninOrOut signingIn theme={theme} onSetTheme={onSetTheme} />
@@ -90,62 +93,3 @@ export default function Artist({ showUserInfo, theme, onSetTheme }) {
     );
   }
 }
-
-const StyledArtistContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 2rem;
-  margin-block-start: 2rem;
-`;
-
-const StyledArtistImage = styled(Image)`
-  border-radius: 100%;
-  width: 150px;
-  height: 150px;
-  @media screen and (min-width: ${devices.desktop + "px"}) {
-    width: 300px;
-    height: 300px;
-  }
-`;
-
-const StyledHeadlineContainer = styled.a`
-  position: relative;
-  @media (hover: hover) {
-    &:hover * {
-      color: ${({ theme }) => theme.hColor};
-      fill: ${({ theme }) => theme.hColor};
-    }
-  }
-`;
-
-const StyledOpenIcon = styled(Icon)`
-  position: absolute;
-  top: 0;
-  right: -1.5rem;
-`;
-
-const StyledTable = styled.table`
-  table-layout: fixed;
-  th {
-    font-family: var(--fontBold);
-    color: ${({ theme }) => theme.accentColor};
-    text-align: start;
-    vertical-align: top;
-  }
-  td {
-    padding-inline: 1rem;
-    padding-block: 0 1rem;
-  }
-  ul {
-    all: unset;
-    max-width: 400px;
-    list-style: none;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  li {
-    padding-inline: 0.2rem;
-  }
-`;
