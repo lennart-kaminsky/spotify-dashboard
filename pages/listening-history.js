@@ -49,42 +49,40 @@ export default function ListeningHistory({ showUserInfo, theme, onSetTheme }) {
         showUserInfo ? (
           <SigninOrOut theme={theme} onSetTheme={onSetTheme} />
         ) : (
-          <>
+          <StyledFlexContainer>
+            <StyledFixedHeadline>Listening History</StyledFixedHeadline>
             <StyledLink href="/">
-              <StyledIcon variant="back" size="1rem" />
-              Back to Dashboard
+              <StyledInnerLinkContainer>
+                <StyledIcon variant="back" size="1rem" />
+                Back to Dashboard
+              </StyledInnerLinkContainer>
             </StyledLink>
-            <StyledFlexContainer>
-              <StyledFixedHeadline>Listening History</StyledFixedHeadline>
-              <StyledRecentlyList>
-                {recentTracksInfo.map((info) => (
-                  <StyledRecentlyListItem key={info.played_at}>
-                    <StyledRecentlyImage
-                      src={info.track.album.images[0].url}
-                      alt="Record Cover"
-                      width={50}
-                      height={50}
-                    />
-                    <StyledTrackInfo>
-                      <StyledPlayedAt>
-                        {playedAt(info.played_at)}
-                      </StyledPlayedAt>
-                      <span>{info.track.name + " "}</span>
-                      <StyledArtist>
-                        {info.track?.artists.map((artist, index) => {
-                          if (index === 0) {
-                            return artist.name;
-                          } else {
-                            return ", " + artist.name;
-                          }
-                        })}
-                      </StyledArtist>
-                    </StyledTrackInfo>
-                  </StyledRecentlyListItem>
-                ))}
-              </StyledRecentlyList>
-            </StyledFlexContainer>
-          </>
+            <StyledRecentlyList>
+              {recentTracksInfo.map((info) => (
+                <StyledRecentlyListItem key={info.played_at}>
+                  <StyledRecentlyImage
+                    src={info.track.album.images[0].url}
+                    alt="Record Cover"
+                    width={50}
+                    height={50}
+                  />
+                  <StyledTrackInfo>
+                    <StyledPlayedAt>{playedAt(info.played_at)}</StyledPlayedAt>
+                    <span>{info.track.name + " "}</span>
+                    <StyledArtist>
+                      {info.track?.artists.map((artist, index) => {
+                        if (index === 0) {
+                          return artist.name;
+                        } else {
+                          return ", " + artist.name;
+                        }
+                      })}
+                    </StyledArtist>
+                  </StyledTrackInfo>
+                </StyledRecentlyListItem>
+              ))}
+            </StyledRecentlyList>
+          </StyledFlexContainer>
         )
       ) : (
         <SigninOrOut signingIn theme={theme} onSetTheme={onSetTheme} />
@@ -102,10 +100,8 @@ const StyledFlexContainer = styled.div`
 `;
 
 const StyledLink = styled(Link)`
-  display: flex;
-  align-items: center;
+  display: inline-block;
   font-size: 0.8rem;
-  gap: 0.2rem;
   color: ${({ theme }) => theme.hColor};
   @media screen and (min-width: ${devices.desktop + "px"}) {
     position: fixed;
@@ -120,6 +116,12 @@ const StyledLink = styled(Link)`
 `;
 const StyledIcon = styled(Icon)`
   fill: ${({ theme }) => theme.hColor};
+`;
+
+const StyledInnerLinkContainer = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
 `;
 
 const StyledFixedHeadline = styled.h2`
