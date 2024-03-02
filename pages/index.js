@@ -1,17 +1,24 @@
 import { useState } from "react";
 import { useSession } from "next-auth/react";
+import styled, { css } from "styled-components";
+import { devices } from "@/styles/devices";
 import useScreenSize from "@/hooks/useScreenSize";
 import CurrentTrack from "@/components/currentTrack";
 import SigninOrOut from "@/components/signInOrOut";
 import TopArtists from "@/components/topArtists";
 import TopTracks from "@/components/topTracks";
-import { devices } from "@/styles/devices";
-import styled, { css } from "styled-components";
 
-export default function Home({ showUserInfo, theme, onSetTheme }) {
+export default function Home({
+  showUserInfo,
+  theme,
+  onSetTheme,
+  onSetPrevPage,
+}) {
   const { data: session } = useSession();
   const [showArtists, setShowArtists] = useState(true);
   const screenSize = useScreenSize();
+
+  onSetPrevPage("/");
 
   return (
     <main>

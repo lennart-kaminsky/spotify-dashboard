@@ -1,7 +1,7 @@
-import { devices } from "@/styles/devices";
-import Image from "next/image";
 import Link from "next/link";
+import Image from "next/image";
 import styled from "styled-components";
+import { devices } from "@/styles/devices";
 
 export const StyledTopList = styled.ol`
   position: fixed;
@@ -11,14 +11,6 @@ export const StyledTopList = styled.ol`
   padding-inline: 0 2%;
   padding-block-end: 250px;
   margin-block-start: 0.5rem;
-`;
-
-export const TopListItem = styled.li`
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-block-end: 0.5rem;
 `;
 
 export const StyledListItemLink = styled(Link)`
@@ -50,9 +42,11 @@ export const NoStyleListItem = styled.li`
 export const NoStyleButton = styled.button`
   all: unset;
   color: ${({ theme }) => theme.hColor};
+  transition: letter-spacing 1s;
   @media (hover: hover) {
     &:hover {
       cursor: pointer;
+      letter-spacing: 0.4rem;
     }
   }
 `;

@@ -1,6 +1,6 @@
 import { signIn, signOut } from "next-auth/react";
 import styled from "styled-components";
-import ThemeButton from "./button";
+import ThemeButton from "@/components/button";
 
 export default function SigninOrOut({ signingIn, theme, onSetTheme }) {
   function signInOrOut() {

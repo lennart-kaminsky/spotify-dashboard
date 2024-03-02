@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
 import styled from "styled-components";
 import { devices } from "@/styles/devices";
-import Icon from "./icons";
-import Link from "next/link";
+import Icon from "@/components/icons";
 
 export default function CurrentTrack() {
   const { data: session } = useSession();
@@ -54,7 +54,7 @@ export default function CurrentTrack() {
     playbackState.currently_playing_type === "track";
 
   return (
-    <StyledPlayer>
+    <StyledPlayer href={`/tracks/${currentTrack.id}`}>
       {isReady && (
         <>
           <StyledImage
@@ -68,7 +68,7 @@ export default function CurrentTrack() {
             height={640}
             priority
           />
-          <StyledSongContainer>
+          <StyledSongContainerLink>
             <h2>{isPlayingTrack ? "playing " : "recently "}</h2>
             <StyledTrack>
               {isPlayingTrack
@@ -92,7 +92,7 @@ export default function CurrentTrack() {
                     }
                   })}
             </StyledArtist>
-          </StyledSongContainer>
+          </StyledSongContainerLink>
         </>
       )}
       <StyledRecentlyLink href="/listening-history">
@@ -102,7 +102,7 @@ export default function CurrentTrack() {
   );
 }
 
-const StyledPlayer = styled.section`
+const StyledPlayer = styled(Link)`
   position: fixed;
   bottom: 0;
   width: 100%;
@@ -112,6 +112,13 @@ const StyledPlayer = styled.section`
   align-items: center;
   gap: 1rem;
   background-color: ${({ theme }) => theme.bgDarker};
+
+  @media (hover: hover) {
+    &:hover *,
+    &:hover {
+      color: ${({ theme }) => theme.hColor};
+    }
+  }
 `;
 
 const StyledImage = styled(Image)`
@@ -120,7 +127,7 @@ const StyledImage = styled(Image)`
   border-radius: 5px;
 `;
 
-const StyledSongContainer = styled.div`
+const StyledSongContainerLink = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.1rem;

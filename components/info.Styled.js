@@ -1,6 +1,5 @@
-import styled from "styled-components";
 import Image from "next/image";
-import Icon from "./icons";
+import styled from "styled-components";
 import { devices } from "@/styles/devices";
 
 export const StyledInfoContainer = styled.div`
@@ -22,19 +21,17 @@ export const StyledInfoImage = styled(Image)`
 `;
 
 export const StyledHeadlineContainer = styled.a`
+  text-align: center;
   position: relative;
+  h2 {
+    display: inline;
+  }
   @media (hover: hover) {
     &:hover * {
       color: ${({ theme }) => theme.hColor};
       fill: ${({ theme }) => theme.hColor};
     }
   }
-`;
-
-export const StyledOpenIcon = styled(Icon)`
-  position: absolute;
-  top: 0;
-  right: -1.5rem;
 `;
 
 export const StyledTable = styled.table`

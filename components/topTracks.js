@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
+import TimeRange from "@/components/timeRange";
 import {
   NoStyleButton,
   NoStyleListItem,
@@ -10,10 +11,8 @@ import {
   StyledTopNumberContainer,
   StyledTrackInfo,
   StyledArtist,
-  TopListItem,
   StyledListItemLink,
 } from "@/components/top.Styled";
-import TimeRange from "./timeRange";
 
 export default function TopTracks() {
   const { data: session } = useSession();

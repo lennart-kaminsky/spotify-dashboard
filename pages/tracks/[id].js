@@ -1,20 +1,19 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
+import useSpotify from "@/hooks/useSpotify";
+import styled from "styled-components";
+import SigninOrOut from "@/components/signInOrOut";
 import BackLink from "@/components/backLink";
 import Icon from "@/components/icons";
 import {
   StyledHeadlineContainer,
   StyledInfoContainer,
   StyledInfoImage,
-  StyledOpenIcon,
   StyledTable,
 } from "@/components/info.Styled";
-import SigninOrOut from "@/components/signInOrOut";
-import useSpotify from "@/hooks/useSpotify";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
 
-export default function Track({ showUserInfo, theme, onSetTheme }) {
+export default function Track({ showUserInfo, theme, onSetTheme, prevPage }) {
   const { data: session } = useSession();
   const router = useRouter();
   const { isReady } = router;
@@ -31,7 +30,6 @@ export default function Track({ showUserInfo, theme, onSetTheme }) {
         if (mySpotifyApi.getAccessToken()) {
           const _track = await mySpotifyApi.getTrack(id);
           setTrack(_track.body);
-          console.log(_track.body);
           setTrackLoaded(true);
         }
       } catch (error) {
@@ -69,8 +67,8 @@ export default function Track({ showUserInfo, theme, onSetTheme }) {
                 href={track.external_urls.spotify}
                 target="_blank"
               >
-                <h2>{track.name}</h2>
-                <StyledOpenIcon variant="openInNew" size="1rem" />
+                <h2>{track.name + " "}</h2>
+                <Icon variant="openInNew" size="1rem" />
               </StyledHeadlineContainer>
 
               <StyledTable>
@@ -118,7 +116,10 @@ export default function Track({ showUserInfo, theme, onSetTheme }) {
                   </tr>
                 </tbody>
               </StyledTable>
-              <BackLink infoPage>Back To Dashboard</BackLink>
+              <BackLink infoPage prevPage={prevPage}>
+                Back To
+                {prevPage === "/" ? " Dashboard" : " Listening History"}
+              </BackLink>
             </StyledInfoContainer>
           )
         ) : (

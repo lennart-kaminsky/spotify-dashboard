@@ -1,22 +1,29 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import useSpotify from "@/hooks/useSpotify";
 import styled from "styled-components";
+import useSpotify from "@/hooks/useSpotify";
 import { devices } from "@/styles/devices";
 import SigninOrOut from "@/components/signInOrOut";
+import BackLink from "@/components/backLink";
 import {
   StyledArtist,
   StyledListImage,
+  StyledListItemLink,
   StyledTopList,
   StyledTrackInfo,
-  TopListItem,
 } from "@/components/top.Styled";
-import BackLink from "@/components/backLink";
 
-export default function ListeningHistory({ showUserInfo, theme, onSetTheme }) {
+export default function ListeningHistory({
+  showUserInfo,
+  theme,
+  onSetTheme,
+  onSetPrevPage,
+}) {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [recentTracksInfo, setRecentTracksInfo] = useState([]);
+
+  onSetPrevPage("/listening-history");
 
   useEffect(() => {
     async function getRecentTracks() {
@@ -53,27 +60,31 @@ export default function ListeningHistory({ showUserInfo, theme, onSetTheme }) {
             <BackLink>Back to Dashboard</BackLink>
             <StyledRecentlyList>
               {recentTracksInfo.map((info) => (
-                <StyledRecentlyListItem key={info.played_at}>
-                  <StyledRecentlyImage
-                    src={info.track.album.images[0].url}
-                    alt="Record Cover"
-                    width={50}
-                    height={50}
-                  />
-                  <StyledTrackInfo>
-                    <StyledPlayedAt>{playedAt(info.played_at)}</StyledPlayedAt>
-                    <span>{info.track.name + " "}</span>
-                    <StyledArtist>
-                      {info.track?.artists.map((artist, index) => {
-                        if (index === 0) {
-                          return artist.name;
-                        } else {
-                          return ", " + artist.name;
-                        }
-                      })}
-                    </StyledArtist>
-                  </StyledTrackInfo>
-                </StyledRecentlyListItem>
+                <li key={info.played_at}>
+                  <StyledRecentlyListItemLink href={`/tracks/${info.track.id}`}>
+                    <StyledRecentlyImage
+                      src={info.track.album.images[0].url}
+                      alt="Record Cover"
+                      width={50}
+                      height={50}
+                    />
+                    <StyledTrackInfo>
+                      <StyledPlayedAt>
+                        {playedAt(info.played_at)}
+                      </StyledPlayedAt>
+                      <span>{info.track.name + " "}</span>
+                      <StyledArtist>
+                        {info.track?.artists.map((artist, index) => {
+                          if (index === 0) {
+                            return artist.name;
+                          } else {
+                            return ", " + artist.name;
+                          }
+                        })}
+                      </StyledArtist>
+                    </StyledTrackInfo>
+                  </StyledRecentlyListItemLink>
+                </li>
               ))}
             </StyledRecentlyList>
           </StyledFlexContainer>
@@ -107,8 +118,10 @@ const StyledRecentlyList = styled(StyledTopList)`
   }
 `;
 
-const StyledRecentlyListItem = styled(TopListItem)`
+const StyledRecentlyListItemLink = styled(StyledListItemLink)`
+  width: 100%;
   margin-block-end: 0.8rem;
+  padding-inline-end: 0.5rem;
 `;
 
 const StyledRecentlyImage = styled(StyledListImage)`

@@ -1,8 +1,8 @@
-import { useSession } from "next-auth/react";
 import Head from "next/head";
-import styled from "styled-components";
-import Icon from "./icons";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import styled from "styled-components";
+import Icon from "@/components/icons";
 
 export default function Header({ showUserInfo, onToggleUserInfo }) {
   const { data: session } = useSession();
@@ -86,8 +86,6 @@ const NoStylesButton = styled.button`
     }
   }
 `;
-
-const StyledCancelIcon = styled(Icon)``;
 
 const StyledImage = styled.img`
   width: 50px;

@@ -1,18 +1,18 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
 import SigninOrOut from "@/components/signInOrOut";
 import BackLink from "@/components/backLink";
+import Icon from "@/components/icons";
 import {
   StyledHeadlineContainer,
   StyledInfoContainer,
   StyledInfoImage,
-  StyledOpenIcon,
   StyledTable,
 } from "@/components/info.Styled";
 
-export default function Artist({ showUserInfo, theme, onSetTheme }) {
+export default function Artist({ showUserInfo, theme, onSetTheme, prevPage }) {
   const { data: session } = useSession();
   const router = useRouter();
   const { isReady } = router;
@@ -57,8 +57,8 @@ export default function Artist({ showUserInfo, theme, onSetTheme }) {
                 href={artist.external_urls.spotify}
                 target="_blank"
               >
-                <h2>{artist.name}</h2>
-                <StyledOpenIcon variant="openInNew" size="1rem" />
+                <h2>{artist.name + " "}</h2>
+                <Icon variant="openInNew" size="1rem" />
               </StyledHeadlineContainer>
 
               <StyledTable>
@@ -83,7 +83,9 @@ export default function Artist({ showUserInfo, theme, onSetTheme }) {
                   </tr>
                 </tbody>
               </StyledTable>
-              <BackLink infoPage>Back To Dashboard</BackLink>
+              <BackLink infoPage prevPage={prevPage}>
+                Back To Dashboard
+              </BackLink>
             </StyledInfoContainer>
           )
         ) : (
