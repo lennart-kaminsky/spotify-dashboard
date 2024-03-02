@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { motion } from "framer-motion";
 import useSpotify from "@/hooks/useSpotify";
 import styled from "styled-components";
 import { devices } from "@/styles/devices";
 import Icon from "@/components/icons";
 import useHorizontalOverflow from "@/hooks/useHorizontalOverflow";
+import useScreenSize from "@/hooks/useScreenSize";
 
 export default function CurrentTrack() {
   const { data: session } = useSession();
@@ -14,6 +16,7 @@ export default function CurrentTrack() {
   const [currentTrack, setCurrentTrack] = useState({});
   const [playbackState, setCurrentlyPlayingType] = useState({});
   const [recentlyPlayedTrack, setRecentlyPlayedTrack] = useState({});
+  const screenSize = useScreenSize();
 
   const ref = useRef();
   const horizontalOverflow = useHorizontalOverflow(ref, playbackState);
@@ -61,7 +64,11 @@ export default function CurrentTrack() {
   return (
     <StyledPlayer>
       {isReady && (
-        <StyledPlayerLink href={`/tracks/${currentTrack.id}`}>
+        <StyledPlayerLink
+          href={`/tracks/${
+            isPlayingTrack ? currentTrack.id : recentlyPlayedTrack.id
+          }`}
+        >
           <StyledImage
             src={
               isPlayingTrack
@@ -75,11 +82,52 @@ export default function CurrentTrack() {
           />
           <StyledSongContainer>
             <h2>{isPlayingTrack ? "playing " : "recently "}</h2>
-            <StyledTrack ref={ref}>
-              {isPlayingTrack
-                ? currentTrack.name + " "
-                : recentlyPlayedTrack.name + " "}
-            </StyledTrack>
+            {screenSize.width < devices.desktop ? (
+              <StyledTrack
+                ref={ref}
+                animate={
+                  ref.current?.scrollWidth
+                    ? {
+                        x: [
+                          0,
+                          -ref.current.scrollWidth,
+                          -ref.current.scrollWidth,
+                          ref.current.scrollWidth,
+                          ref.current.scrollWidth,
+                          0,
+                        ],
+                        opacity: [1, 1, 0, 0, 1, 1],
+                      }
+                    : {
+                        x: ["0%", "-110%", "-110%", "110%", "110%", "0%"],
+                      }
+                }
+                transition={{
+                  duration: 11,
+                  ease: [
+                    "linear",
+                    "linear",
+                    "linear",
+                    "linear",
+                    "linear",
+                    "linear",
+                  ],
+                  times: [0, 0.5, 0.501, 0.502, 0.503, 1],
+                  repeat: Infinity,
+                  delay: 1,
+                }}
+              >
+                {isPlayingTrack
+                  ? currentTrack.name + " "
+                  : recentlyPlayedTrack.name + " "}
+              </StyledTrack>
+            ) : (
+              <StyledTrack>
+                {isPlayingTrack
+                  ? currentTrack.name + " "
+                  : recentlyPlayedTrack.name + " "}
+              </StyledTrack>
+            )}
             <StyledArtist>
               {isPlayingTrack
                 ? currentTrack.artists.map((artist, index) => {
@@ -158,7 +206,7 @@ const StyledSongContainer = styled.div`
   }
 `;
 
-const StyledTrack = styled.span`
+const StyledTrack = styled(motion.span)`
   font-size: 1rem;
   color: ${({ theme }) => theme.fontColor};
   white-space: nowrap;
@@ -170,8 +218,9 @@ const StyledTrack = styled.span`
 const StyledArtist = styled.span`
   font-size: 0.7rem;
   color: ${({ theme }) => theme.accentColor};
+  white-space: nowrap;
   @media screen and (min-width: ${devices.desktop + "px"}) {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
   }
 `;
 
