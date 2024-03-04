@@ -13,7 +13,9 @@ export default function useHorizontalOverflow89(ref, dependency) {
       return;
     }
     const horizontalOverflow = current?.scrollWidth > current?.clientWidth;
-    console.log(current);
+    console.log("current", current);
+    console.log("scrollWidth", current?.scrollWidth);
+    console.log("clientWidth", current?.clientWidth);
     setHasHorizontalOverflow(horizontalOverflow);
   }, [current, screenSize, dependency]);
 

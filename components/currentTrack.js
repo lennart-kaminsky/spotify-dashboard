@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { motion } from "framer-motion";
 import useSpotify from "@/hooks/useSpotify";
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { devices } from "@/styles/devices";
 import Icon from "@/components/icons";
 import useHorizontalOverflow from "@/hooks/useHorizontalOverflow";
@@ -18,9 +18,31 @@ export default function CurrentTrack() {
   const [recentlyPlayedTrack, setRecentlyPlayedTrack] = useState({});
   const screenSize = useScreenSize();
 
-  const ref = useRef();
-  const horizontalOverflow = useHorizontalOverflow(ref, playbackState);
-  console.log(horizontalOverflow);
+  // const trackArtistRef = useRef(null);
+  // const trackArtistHorizontalOverflow = useHorizontalOverflow(
+  //   trackArtistRef,
+  //   playbackState
+  // );
+  const trackRef = useRef(null);
+  const trackHorizontalOverflow = useHorizontalOverflow(
+    trackRef,
+    playbackState
+  );
+  // const trackScrollerRef = useRef(null);
+  // const trackScrollerHorizontalOverflow = useHorizontalOverflow(
+  //   trackScrollerRef,
+  //   playbackState
+  // );
+  // const artistRef = useRef(null);
+  // const artistHorizontalOverflow = useHorizontalOverflow(
+  //   artistRef,
+  //   playbackState
+  // );
+
+  // console.log("trackArtsit", trackArtistHorizontalOverflow);
+  console.log("track", trackHorizontalOverflow);
+  // console.log("trackScoller", trackScrollerHorizontalOverflow);
+  // console.log("artist", artistHorizontalOverflow);
 
   useEffect(() => {
     async function getCurrentTrack() {
@@ -61,6 +83,8 @@ export default function CurrentTrack() {
     playbackState.is_playing &&
     playbackState.currently_playing_type === "track";
 
+  console.log("AAAAAAAA", trackRef.current?.scrollWidth);
+
   return (
     <StyledPlayer>
       {isReady && (
@@ -80,72 +104,76 @@ export default function CurrentTrack() {
             height={640}
             priority
           />
-          <StyledSongContainer>
+          <StyledInnerPlayerLinkContainer>
             <h2>{isPlayingTrack ? "playing " : "recently "}</h2>
-            {screenSize.width < devices.desktop ? (
-              <StyledTrack
-                ref={ref}
-                animate={
-                  ref.current?.scrollWidth
-                    ? {
-                        x: [
-                          0,
-                          -ref.current.scrollWidth,
-                          -ref.current.scrollWidth,
-                          ref.current.scrollWidth,
-                          ref.current.scrollWidth,
-                          0,
-                        ],
-                        opacity: [1, 1, 0, 0, 1, 1],
-                      }
-                    : {
-                        x: ["0%", "-110%", "-110%", "110%", "110%", "0%"],
-                      }
-                }
-                transition={{
-                  duration: 11,
-                  ease: [
-                    "linear",
-                    "linear",
-                    "linear",
-                    "linear",
-                    "linear",
-                    "linear",
-                  ],
-                  times: [0, 0.5, 0.501, 0.502, 0.503, 1],
-                  repeat: Infinity,
-                  delay: 1,
-                }}
+            <StyledTrackArtistContainer
+            // ref={trackArtistRef}
+            >
+              <StyledScroller
+                // ref={trackScrollerRef}
+                $hasOverflow={trackHorizontalOverflow}
+                $elementwidth={trackRef.current?.scrollWidth}
               >
-                {isPlayingTrack
-                  ? currentTrack.name + " "
-                  : recentlyPlayedTrack.name + " "}
-              </StyledTrack>
-            ) : (
-              <StyledTrack>
-                {isPlayingTrack
-                  ? currentTrack.name + " "
-                  : recentlyPlayedTrack.name + " "}
-              </StyledTrack>
-            )}
-            <StyledArtist>
-              {isPlayingTrack
-                ? currentTrack.artists.map((artist, index) => {
-                    if (index === 0) {
-                      return artist.name;
-                    } else {
-                      return ", " + artist.name;
-                    }
-                  })
-                : recentlyPlayedTrack.artists.map((artist, index) => {
-                    if (index === 0) {
-                      return artist.name;
-                    } else {
-                      return ", " + artist.name;
-                    }
-                  })}
-            </StyledArtist>
-          </StyledSongContainer>
+                <StyledTrack
+                  ref={trackRef}
+                  $elementwidth={trackRef.current?.scrollWidth}
+                >
+                  {isPlayingTrack
+                    ? currentTrack.name + " "
+                    : recentlyPlayedTrack.name + " "}
+                </StyledTrack>
+                {trackHorizontalOverflow && (
+                  <StyledTrack $elementwidth={trackRef.current?.scrollWidth}>
+                    {isPlayingTrack
+                      ? currentTrack.name + " "
+                      : recentlyPlayedTrack.name + " "}
+                  </StyledTrack>
+                )}
+              </StyledScroller>
+              <StyledScroller
+              // ref={artistRef}
+              // $hasOverflow={artistHorizontalOverflow}
+              // elemWidth={artistRef.current?.scrollWidth}
+              >
+                <StyledArtist>
+                  {isPlayingTrack
+                    ? currentTrack.artists.map((artist, index) => {
+                        if (index === 0) {
+                          return artist.name;
+                        } else {
+                          return ", " + artist.name;
+                        }
+                      })
+                    : recentlyPlayedTrack.artists.map((artist, index) => {
+                        if (index === 0) {
+                          return artist.name;
+                        } else {
+                          return ", " + artist.name;
+                        }
+                      })}
+                </StyledArtist>
+                {/* {artistHorizontalOverflow && (
+                  <StyledArtist>
+                    {isPlayingTrack
+                      ? currentTrack.artists.map((artist, index) => {
+                          if (index === 0) {
+                            return artist.name;
+                          } else {
+                            return ", " + artist.name;
+                          }
+                        })
+                      : recentlyPlayedTrack.artists.map((artist, index) => {
+                          if (index === 0) {
+                            return artist.name;
+                          } else {
+                            return ", " + artist.name;
+                          }
+                        })}
+                  </StyledArtist>
+                )} */}
+              </StyledScroller>
+            </StyledTrackArtistContainer>
+          </StyledInnerPlayerLinkContainer>
         </StyledPlayerLink>
       )}
       <StyledRecentlyLink href="/listening-history">
@@ -156,9 +184,11 @@ export default function CurrentTrack() {
 }
 
 const StyledPlayer = styled.section`
+  /* border: 1px solid red; */
+  width: 100%;
+  height: 70px;
   position: fixed;
   bottom: 0;
-  width: 100%;
   margin-inline: -2%;
   padding: 0.6rem 2% 0.5rem;
   display: flex;
@@ -175,11 +205,13 @@ const StyledPlayer = styled.section`
 `;
 
 const StyledPlayerLink = styled(Link)`
+  width: 100%;
+  /* max-width: 100%; */
+  overflow: hidden;
+  border: 1px solid green;
   display: flex;
   align-items: center;
   gap: 2%;
-  width: 100%;
-  overflow: hidden;
 `;
 
 const StyledImage = styled(Image)`
@@ -188,15 +220,19 @@ const StyledImage = styled(Image)`
   border-radius: 5px;
 `;
 
-const StyledSongContainer = styled.div`
+const StyledInnerPlayerLinkContainer = styled.div`
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  border: 1px solid red;
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
-  overflow: hidden;
   h2 {
     text-transform: none;
     font-size: 0.7rem;
     padding-block-end: 0.1rem;
+    width: auto;
   }
 
   @media screen and (min-width: ${devices.desktop + "px"}) {
@@ -206,24 +242,69 @@ const StyledSongContainer = styled.div`
   }
 `;
 
-const StyledTrack = styled(motion.span)`
-  font-size: 1rem;
-  color: ${({ theme }) => theme.fontColor};
-  white-space: nowrap;
+const StyledTrackArtistContainer = styled.div`
+  width: 100%;
+  max-width: 100%;
+  /* overflow: hidden; */
+  border: 3px solid lightblue;
+  display: flex;
+  flex-direction: column;
   @media screen and (min-width: ${devices.desktop + "px"}) {
-    font-size: 1.6rem;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 0.5rem;
   }
 `;
 
-const StyledArtist = styled.span`
+const slide = (elementWidth) => keyframes`
+0% {
+  transform: translate(0);
+}
+100% {
+  transform: translate(-${elementWidth}px);
+}
+`;
+
+const StyledScroller = styled.div`
+  /* display: inline-block; */
+  width: 100%;
+  max-width: 100%;
+  /* overflow: hidden; //DAS HIER IST GEFÄHRLICH */
+  /* display: flex; */
+  background-color: purple;
+  white-space: nowrap;
+  animation: ${({ $hasOverflow, $elementwidth }) =>
+    $hasOverflow && css`12s ${slide($elementwidth)} infinite linear`};
+`;
+
+const StyledTrack = styled.div`
+  /* overflow: hidden; */
+  /* max-width: ${({ $elementwidth }) => $elementwidth && 2 * $elementwidth}; */
+  max-width: 100%;
+  /* width: auto; */
+  display: inline-block;
+  background-color: limegreen;
+  white-space: nowrap;
+  font-size: 1rem;
+  color: ${({ theme }) => theme.fontColor};
+  padding-inline-end: 2rem;
+`;
+
+const StyledArtist = styled.div`
+  /* overflow: hidden; */
+  /* max-width: 100%; */
+  /* width: auto; */
+  display: inline-block;
+  background-color: limegreen;
   font-size: 0.7rem;
   color: ${({ theme }) => theme.accentColor};
   white-space: nowrap;
   @media screen and (min-width: ${devices.desktop + "px"}) {
-    font-size: 1.4rem;
+    font-size: 0.9rem;
   }
 `;
 
 const StyledRecentlyLink = styled(Link)`
+  border: 1px solid white;
   margin-inline-start: auto;
 `;
