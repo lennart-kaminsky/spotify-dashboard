@@ -114,21 +114,77 @@ export default function CurrentTrack() {
                 $hasOverflow={trackHorizontalOverflow}
                 $elementwidth={trackRef.current?.scrollWidth}
               >
-                <StyledTrack
+                {/* <StyledTrack
                   ref={trackRef}
                   $elementwidth={trackRef.current?.scrollWidth}
+                >
+                  {isPlayingTrack ? (
+                    trackHorizontalOverflow ? (
+                      <>
+                        <StyledTrackSpan>
+                          {currentTrack.name + " "}
+                        </StyledTrackSpan>
+                        <StyledTrackSpan>
+                          {currentTrack.name + " "}
+                        </StyledTrackSpan>
+                      </>
+                    ) : (
+                      <StyledTrackSpan>
+                        {currentTrack.name + " "}
+                      </StyledTrackSpan>
+                    )
+                  ) : trackHorizontalOverflow ? (
+                    <>
+                      <StyledTrackSpan>
+                        {recentlyPlayedTrack.name + " "}
+                      </StyledTrackSpan>
+                      <StyledTrackSpan>
+                        {recentlyPlayedTrack.name + " "}
+                      </StyledTrackSpan>
+                    </>
+                  ) : (
+                    <StyledTrackSpan>
+                      {recentlyPlayedTrack.name + " "}
+                    </StyledTrackSpan>
+                  )}
+                </StyledTrack> */}
+
+                <StyledAnimatedTrack $hasOverflow={trackHorizontalOverflow}>
+                  {isPlayingTrack ? (
+                    <>
+                      <StyledTrackSpan>{currentTrack.name}</StyledTrackSpan>
+                      <StyledTrackSpan>{currentTrack.name}</StyledTrackSpan>
+                    </>
+                  ) : (
+                    <>
+                      <StyledTrackSpan>
+                        {recentlyPlayedTrack.name}
+                      </StyledTrackSpan>
+                      <StyledTrackSpan>
+                        {recentlyPlayedTrack.name}
+                      </StyledTrackSpan>
+                    </>
+                  )}
+                </StyledAnimatedTrack>
+
+                <StyledTrack
+                  ref={trackRef}
+                  // $elementwidth={trackRef.current?.scrollWidth}
+                  $hasOverflow={trackHorizontalOverflow}
                 >
                   {isPlayingTrack
                     ? currentTrack.name + " "
                     : recentlyPlayedTrack.name + " "}
                 </StyledTrack>
-                {trackHorizontalOverflow && (
+
+                {/* //--------- */}
+                {/* {trackHorizontalOverflow && (
                   <StyledTrack $elementwidth={trackRef.current?.scrollWidth}>
                     {isPlayingTrack
                       ? currentTrack.name + " "
                       : recentlyPlayedTrack.name + " "}
                   </StyledTrack>
-                )}
+                )} */}
               </StyledScroller>
               <StyledScroller
               // ref={artistRef}
@@ -208,7 +264,7 @@ const StyledPlayerLink = styled(Link)`
   width: 100%;
   /* max-width: 100%; */
   overflow: hidden;
-  border: 1px solid green;
+  /* border: 1px solid green; */
   display: flex;
   align-items: center;
   gap: 2%;
@@ -224,7 +280,7 @@ const StyledInnerPlayerLinkContainer = styled.div`
   width: 100%;
   max-width: 100%;
   overflow: hidden;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
@@ -246,7 +302,7 @@ const StyledTrackArtistContainer = styled.div`
   width: 100%;
   max-width: 100%;
   /* overflow: hidden; */
-  border: 3px solid lightblue;
+  /* border: 3px solid lightblue; */
   display: flex;
   flex-direction: column;
   @media screen and (min-width: ${devices.desktop + "px"}) {
@@ -261,17 +317,18 @@ const slide = (elementWidth) => keyframes`
   transform: translate(0);
 }
 100% {
-  transform: translate(-${elementWidth}px);
+  transform: translate(calc(-${elementWidth}px - 4rem));
 }
 `;
 
 const StyledScroller = styled.div`
+  position: relative;
   /* display: inline-block; */
-  width: 100%;
-  max-width: 100%;
+  /* width: 100%; */
+  /* max-width: 100%; */
   /* overflow: hidden; //DAS HIER IST GEFÄHRLICH */
   /* display: flex; */
-  background-color: purple;
+  /* background-color: purple; */
   white-space: nowrap;
   animation: ${({ $hasOverflow, $elementwidth }) =>
     $hasOverflow && css`12s ${slide($elementwidth)} infinite linear`};
@@ -283,11 +340,23 @@ const StyledTrack = styled.div`
   max-width: 100%;
   /* width: auto; */
   display: inline-block;
-  background-color: limegreen;
+  /* background-color: limegreen; */
   white-space: nowrap;
   font-size: 1rem;
   color: ${({ theme }) => theme.fontColor};
   padding-inline-end: 2rem;
+
+  /* visibility: hidden; */
+  visibility: ${({ $hasOverflow }) => ($hasOverflow ? "hidden" : "visible")};
+`;
+
+const StyledAnimatedTrack = styled(StyledTrack)`
+  position: absolute;
+  visibility: ${({ $hasOverflow }) => ($hasOverflow ? "visible" : "hidden")};
+`;
+
+const StyledTrackSpan = styled.span`
+  padding-inline-end: 4rem;
 `;
 
 const StyledArtist = styled.div`
@@ -295,7 +364,7 @@ const StyledArtist = styled.div`
   /* max-width: 100%; */
   /* width: auto; */
   display: inline-block;
-  background-color: limegreen;
+  /* background-color: limegreen; */
   font-size: 0.7rem;
   color: ${({ theme }) => theme.accentColor};
   white-space: nowrap;
@@ -305,6 +374,5 @@ const StyledArtist = styled.div`
 `;
 
 const StyledRecentlyLink = styled(Link)`
-  border: 1px solid white;
   margin-inline-start: auto;
 `;
