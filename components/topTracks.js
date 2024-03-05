@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
+import useFilterStore from "@/stores/filterStore";
 import TimeRange from "@/components/timeRange";
 import {
   NoStyleButton,
@@ -18,20 +19,15 @@ export default function TopTracks() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [topTracks, setTopTracks] = useState([]);
-  const [timeRange, setTimeRange] = useState("long_term");
-  const [limit, setLimit] = useState(20);
-
-  function handleTimeRange(range) {
-    setTimeRange(range);
-  }
+  const { trackTimeRange, trackLimit, setTrackLimit } = useFilterStore();
 
   useEffect(() => {
     async function getTopTracks() {
       try {
         if (mySpotifyApi.getAccessToken()) {
           const _topTracks = await mySpotifyApi.getMyTopTracks({
-            time_range: timeRange,
-            limit: limit,
+            time_range: trackTimeRange,
+            limit: trackLimit,
           });
           setTopTracks(_topTracks.body.items);
         }
@@ -40,11 +36,11 @@ export default function TopTracks() {
       }
     }
     getTopTracks();
-  }, [session, mySpotifyApi, timeRange, limit]);
+  }, [session, mySpotifyApi, trackTimeRange, trackLimit]);
 
   return (
     <>
-      <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
+      <TimeRange track />
       <StyledTopList>
         {topTracks.map((track, index) => (
           <li key={track.id}>
@@ -75,14 +71,14 @@ export default function TopTracks() {
         ))}
         {topTracks.length > 20 && (
           <NoStyleListItem>
-            <NoStyleButton onClick={() => setLimit(limit - 10)}>
+            <NoStyleButton onClick={() => setTrackLimit(trackLimit - 10)}>
               less
             </NoStyleButton>
           </NoStyleListItem>
         )}
-        {topTracks.length < 50 && topTracks.length === limit && (
+        {topTracks.length < 50 && topTracks.length === trackLimit && (
           <NoStyleListItem>
-            <NoStyleButton onClick={() => setLimit(limit + 10)}>
+            <NoStyleButton onClick={() => setTrackLimit(trackLimit + 10)}>
               more
             </NoStyleButton>
           </NoStyleListItem>

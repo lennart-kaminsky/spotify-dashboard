@@ -2,10 +2,12 @@ import Head from "next/head";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import styled from "styled-components";
+import useSettingsStore from "@/stores/settingsStore";
 import Icon from "@/components/icons";
 
-export default function Header({ showUserInfo, onToggleUserInfo }) {
+export default function Header() {
   const { data: session } = useSession();
+  const { showUserInfo, toggleShowUserInfo } = useSettingsStore();
 
   return (
     <>
@@ -40,7 +42,7 @@ export default function Header({ showUserInfo, onToggleUserInfo }) {
           </StyledHeadlineContainer>
         )}
         {session && (
-          <NoStylesButton onClick={() => onToggleUserInfo()}>
+          <NoStylesButton onClick={() => toggleShowUserInfo()}>
             {showUserInfo ? (
               <Icon variant="cancel" />
             ) : session.user.image ? (

@@ -1,15 +1,11 @@
-import Header from "@/components/header";
 import { useSession } from "next-auth/react";
-import SigninOrOut from "./signInOrOut";
+import useSettingsStore from "@/stores/settingsStore";
+import Header from "@/components/header";
+import SigninOrOut from "@/components/signInOrOut";
 
-export default function Layout({
-  children,
-  theme,
-  onSetTheme,
-  showUserInfo,
-  onToggleUserInfo,
-}) {
+export default function Layout({ children, theme, onSetTheme }) {
   const { data: session } = useSession();
+  const { showUserInfo } = useSettingsStore();
 
   if (!session)
     return (
@@ -28,10 +24,7 @@ export default function Layout({
   if (showUserInfo)
     return (
       <>
-        <Header
-          showUserInfo={showUserInfo}
-          onToggleUserInfo={onToggleUserInfo}
-        ></Header>
+        <Header></Header>
         <main>
           <SigninOrOut theme={theme} onSetTheme={onSetTheme}></SigninOrOut>
         </main>
@@ -40,10 +33,7 @@ export default function Layout({
 
   return (
     <>
-      <Header
-        showUserInfo={showUserInfo}
-        onToggleUserInfo={onToggleUserInfo}
-      ></Header>
+      <Header></Header>
       <main>{children}</main>
     </>
   );

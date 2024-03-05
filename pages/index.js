@@ -1,14 +1,14 @@
-import { useState } from "react";
 import styled, { css } from "styled-components";
-import { devices } from "@/styles/devices";
 import useScreenSize from "@/hooks/useScreenSize";
+import useFilterStore from "@/stores/filterStore";
+import { devices } from "@/styles/devices";
 import CurrentTrack from "@/components/currentTrack";
 import TopArtists from "@/components/topArtists";
 import TopTracks from "@/components/topTracks";
 
 export default function Home({ onSetPrevPage }) {
-  const [showArtists, setShowArtists] = useState(true);
   const screenSize = useScreenSize();
+  const { showArtists, setShowArtists } = useFilterStore();
 
   onSetPrevPage("/");
 

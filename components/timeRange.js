@@ -1,29 +1,50 @@
+import useFilterStore from "@/stores/filterStore";
 import styled from "styled-components";
 
-export default function TimeRange({ timeRange, onTimeRange }) {
+export default function TimeRange({ artist, track }) {
+  const {
+    artistTimeRange,
+    trackTimeRange,
+    setArtistTimeRange,
+    setTrackTimeRange,
+  } = useFilterStore();
+
+  function isActive(range) {
+    if (artist) return artistTimeRange === range;
+    if (track) return trackTimeRange === range;
+    return false;
+  }
+
+  function onClick(range) {
+    console.log("range", range);
+    if (artist) return setArtistTimeRange(range);
+    if (track) return setTrackTimeRange(range);
+  }
+
   return (
     <StlyedTimeRangeContainer>
       <StyledTimeRangeButton
-        $active={timeRange === "long_term"}
-        onClick={() => onTimeRange("long_term")}
+        $active={isActive("long_term")}
+        onClick={() => onClick("long_term")}
       >
         all time
       </StyledTimeRangeButton>
       <StyledTimeRangeButton
-        $active={timeRange === "medium_term"}
-        onClick={() => onTimeRange("medium_term")}
+        $active={isActive("medium_term")}
+        onClick={() => onClick("medium_term")}
       >
         six months
       </StyledTimeRangeButton>
       <StyledTimeRangeButton
-        $active={timeRange === "short_term"}
-        onClick={() => onTimeRange("short_term")}
+        $active={isActive("short_term")}
+        onClick={() => onClick("short_term")}
       >
         four weeks
       </StyledTimeRangeButton>
     </StlyedTimeRangeContainer>
   );
 }
+
 const StlyedTimeRangeContainer = styled.div`
   display: flex;
   padding-block-start: 0.3rem;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
+import useFilterStore from "@/stores/filterStore";
 import TimeRange from "@/components/timeRange";
 import {
   NoStyleButton,
@@ -16,20 +17,15 @@ export default function TopArtists() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [topArtists, setTopArtists] = useState([]);
-  const [timeRange, setTimeRange] = useState("long_term");
-  const [limit, setLimit] = useState(20);
-
-  function handleTimeRange(range) {
-    setTimeRange(range);
-  }
+  const { artistTimeRange, artistLimit, setArtistLimit } = useFilterStore();
 
   useEffect(() => {
     async function getTopArtists() {
       try {
         if (mySpotifyApi.getAccessToken()) {
           const _topArtists = await mySpotifyApi.getMyTopArtists({
-            time_range: timeRange,
-            limit: limit,
+            time_range: artistTimeRange,
+            limit: artistLimit,
           });
           setTopArtists(_topArtists.body.items);
         }
@@ -38,11 +34,11 @@ export default function TopArtists() {
       }
     }
     getTopArtists();
-  }, [session, mySpotifyApi, timeRange, limit]);
+  }, [session, mySpotifyApi, artistTimeRange, artistLimit]);
 
   return (
     <>
-      <TimeRange timeRange={timeRange} onTimeRange={handleTimeRange} />
+      <TimeRange artist />
       <StyledTopList>
         {topArtists.map((artist, index) => (
           <li key={artist.id}>
@@ -63,14 +59,14 @@ export default function TopArtists() {
 
         {topArtists.length > 20 && (
           <NoStyleListItem>
-            <NoStyleButton onClick={() => setLimit(limit - 10)}>
+            <NoStyleButton onClick={() => setArtistLimit(artistLimit - 10)}>
               less
             </NoStyleButton>
           </NoStyleListItem>
         )}
-        {topArtists.length < 50 && topArtists.length === limit && (
+        {topArtists.length < 50 && topArtists.length === artistLimit && (
           <NoStyleListItem>
-            <NoStyleButton onClick={() => setLimit(limit + 10)}>
+            <NoStyleButton onClick={() => setArtistLimit(artistLimit + 10)}>
               more
             </NoStyleButton>
           </NoStyleListItem>
