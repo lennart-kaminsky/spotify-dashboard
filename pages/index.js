@@ -1,72 +1,54 @@
 import { useState } from "react";
-import { useSession } from "next-auth/react";
 import styled, { css } from "styled-components";
 import { devices } from "@/styles/devices";
 import useScreenSize from "@/hooks/useScreenSize";
 import CurrentTrack from "@/components/currentTrack";
-import SigninOrOut from "@/components/signInOrOut";
 import TopArtists from "@/components/topArtists";
 import TopTracks from "@/components/topTracks";
 
-export default function Home({
-  showUserInfo,
-  theme,
-  onSetTheme,
-  onSetPrevPage,
-}) {
-  const { data: session } = useSession();
+export default function Home({ onSetPrevPage }) {
   const [showArtists, setShowArtists] = useState(true);
   const screenSize = useScreenSize();
 
   onSetPrevPage("/");
 
   return (
-    <main>
-      {session ? (
-        showUserInfo ? (
-          <SigninOrOut theme={theme} onSetTheme={onSetTheme} />
+    <>
+      <StyledTopContainer>
+        {screenSize.width < devices.desktop ? (
+          <>
+            <h2>
+              Your Top{" "}
+              <StyledArtistTrackButton
+                $active={!showArtists}
+                onClick={() => setShowArtists(true)}
+              >
+                Artists
+              </StyledArtistTrackButton>{" "}
+              <StyledArtistTrackButton
+                $active={showArtists}
+                onClick={() => setShowArtists(false)}
+              >
+                Tracks
+              </StyledArtistTrackButton>{" "}
+            </h2>
+            {showArtists ? <TopArtists /> : <TopTracks />}
+          </>
         ) : (
           <>
-            <StyledTopContainer>
-              {screenSize.width < devices.desktop ? (
-                <>
-                  <h2>
-                    Your Top{" "}
-                    <StyledArtistTrackButton
-                      $active={!showArtists}
-                      onClick={() => setShowArtists(true)}
-                    >
-                      Artists
-                    </StyledArtistTrackButton>{" "}
-                    <StyledArtistTrackButton
-                      $active={showArtists}
-                      onClick={() => setShowArtists(false)}
-                    >
-                      Tracks
-                    </StyledArtistTrackButton>{" "}
-                  </h2>
-                  {showArtists ? <TopArtists /> : <TopTracks />}
-                </>
-              ) : (
-                <>
-                  <StyledTopWrapper>
-                    <h2>Your Top Artists</h2>
-                    <TopArtists />
-                  </StyledTopWrapper>
-                  <StyledTopWrapper>
-                    <h2>Your Top Tracks</h2>
-                    <TopTracks />
-                  </StyledTopWrapper>
-                </>
-              )}
-            </StyledTopContainer>
-            <CurrentTrack />
+            <StyledTopWrapper>
+              <h2>Your Top Artists</h2>
+              <TopArtists />
+            </StyledTopWrapper>
+            <StyledTopWrapper>
+              <h2>Your Top Tracks</h2>
+              <TopTracks />
+            </StyledTopWrapper>
           </>
-        )
-      ) : (
-        <SigninOrOut signingIn theme={theme} onSetTheme={onSetTheme} />
-      )}
-    </main>
+        )}
+      </StyledTopContainer>
+      <CurrentTrack />
+    </>
   );
 }
 

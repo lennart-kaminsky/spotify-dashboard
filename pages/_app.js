@@ -6,6 +6,7 @@ import { ThemeProvider } from "styled-components";
 import GlobalStyle from "@/styles/styles";
 import Header from "@/components/header";
 import getTheme from "@/utils/getTheme";
+import Layout from "@/components/layout";
 
 export default function App({ Component, pageProps }) {
   const [showUserInfo, setShowUserInfo] = useState(false);
@@ -33,18 +34,25 @@ export default function App({ Component, pageProps }) {
       <ThemeProvider theme={getTheme(theme)}>
         <GlobalStyle />
         <SessionProvider session={pageProps.session}>
-          <Header
+          {/* <Header
             showUserInfo={showUserInfo}
             onToggleUserInfo={handleToggleUserInfo}
-          />
-          <Component
-            {...pageProps}
+          /> */}
+          <Layout
             showUserInfo={showUserInfo}
+            onToggleUserInfo={handleToggleUserInfo}
             theme={theme}
-            prevPage={prevPage}
             onSetTheme={handleSetTheme}
-            onSetPrevPage={handleSetPrevPage}
-          />
+          >
+            <Component
+              {...pageProps}
+              showUserInfo={showUserInfo}
+              theme={theme}
+              prevPage={prevPage}
+              onSetTheme={handleSetTheme}
+              onSetPrevPage={handleSetPrevPage}
+            />
+          </Layout>
         </SessionProvider>
       </ThemeProvider>
     </>
