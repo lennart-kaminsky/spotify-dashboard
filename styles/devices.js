@@ -1,5 +1,5 @@
 export const devices = {
-  mobile: "(min-width: 320px)",
-  tablet: "(min-width: 768)",
+  mobile: 320,
+  tablet: 768,
   desktop: 1024,
 };

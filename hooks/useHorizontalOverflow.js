@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
 import useScreenSize from "@/hooks/useScreenSize";
 
-export default function useHorizontalOverflow89(ref, dependency) {
+export default function useHorizontalOverflow89(ref, ...dependencies) {
   const [hasHorizontalOverflow, setHasHorizontalOverflow] = useState(false);
-
   const screenSize = useScreenSize();
   const { current } = ref;
-  console.log(ref);
 
   useEffect(() => {
     if (!current) {
       return;
     }
     const horizontalOverflow = current?.scrollWidth > current?.clientWidth;
-    console.log("current", current);
-    console.log("scrollWidth", current?.scrollWidth);
-    console.log("clientWidth", current?.clientWidth);
     setHasHorizontalOverflow(horizontalOverflow);
-  }, [current, screenSize, dependency]);
+  }, [current, screenSize, dependencies]);
 
   return hasHorizontalOverflow;
 }
