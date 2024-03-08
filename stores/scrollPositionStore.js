@@ -1,11 +1,15 @@
 import { create } from "zustand";
 
 const useScrollPositionStore = create((set) => ({
-  artistsTopListPosition: 0,
+  artistsTopListPosition: { long_term: 0, medium_term: 0, short_term: 0 },
   tracksTopListPosition: { long_term: 0, medium_term: 0, short_term: 0 },
-  recentTracksListPosition: 0,
-  setArtistsTopListPosition: (position) =>
-    set(() => ({ artistsTopListPosition: position })),
+  setArtistsTopListPosition: (position, range) =>
+    set((state) => ({
+      artistsTopListPosition: {
+        ...state.artistsTopListPosition,
+        [range]: position,
+      },
+    })),
   setTracksTopListPosition: (position, range) =>
     set((state) => ({
       tracksTopListPosition: {
