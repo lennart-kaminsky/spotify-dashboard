@@ -1,16 +1,21 @@
-import styled, { css } from "styled-components";
-import useScreenSize from "@/hooks/useScreenSize";
 import useFilterStore from "@/stores/filterStore";
+import useSettingsStore from "@/stores/settingsStore";
+import useScreenSize from "@/hooks/useScreenSize";
 import { devices } from "@/styles/devices";
+import styled, { css } from "styled-components";
 import CurrentTrack from "@/components/currentTrack";
 import TopArtists from "@/components/topArtists";
 import TopTracks from "@/components/topTracks";
+import { useEffect } from "react";
 
 export default function Home({ onSetPrevPage }) {
   const screenSize = useScreenSize();
   const { showArtists, setShowArtists } = useFilterStore();
 
-  onSetPrevPage("/");
+  const { setPrevPage } = useSettingsStore();
+  useEffect(() => {
+    setPrevPage("/");
+  }, []);
 
   return (
     <>

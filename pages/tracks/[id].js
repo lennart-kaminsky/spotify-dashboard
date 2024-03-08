@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
+import useSettingsStore from "@/stores/settingsStore";
 import styled from "styled-components";
 import BackLink from "@/components/backLink";
 import Icon from "@/components/icons";
@@ -12,13 +13,14 @@ import {
   StyledTable,
 } from "@/components/info.Styled";
 
-export default function Track({ prevPage }) {
+export default function Track() {
   const { data: session } = useSession();
   const router = useRouter();
   const { isReady } = router;
   const { id } = router.query;
 
   const mySpotifyApi = useSpotify();
+  const { prevPage } = useSettingsStore();
 
   const [track, setTrack] = useState({});
   const [trackLoaded, setTrackLoaded] = useState(false);

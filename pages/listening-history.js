@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import useSettingsStore from "@/stores/settingsStore";
 import styled from "styled-components";
 import useSpotify from "@/hooks/useSpotify";
 import { devices } from "@/styles/devices";
@@ -12,12 +13,15 @@ import {
   StyledTrackInfo,
 } from "@/components/top.Styled";
 
-export default function ListeningHistory({ onSetPrevPage }) {
+export default function ListeningHistory() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [recentTracksInfo, setRecentTracksInfo] = useState([]);
 
-  onSetPrevPage("/listening-history");
+  const { setPrevPage } = useSettingsStore();
+  useEffect(() => {
+    setPrevPage("/listening-history");
+  }, []);
 
   useEffect(() => {
     async function getRecentTracks() {

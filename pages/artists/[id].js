@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import useSettingsStore from "@/stores/settingsStore";
 import useSpotify from "@/hooks/useSpotify";
 import BackLink from "@/components/backLink";
 import Icon from "@/components/icons";
@@ -11,13 +12,14 @@ import {
   StyledTable,
 } from "@/components/info.Styled";
 
-export default function Artist({ prevPage }) {
+export default function Artist() {
   const { data: session } = useSession();
   const router = useRouter();
   const { isReady } = router;
   const { id } = router.query;
 
   const mySpotifyApi = useSpotify();
+  const { prevPage } = useSettingsStore();
 
   const [artist, setArtist] = useState({});
   const [artistLoaded, setArtistLoaded] = useState(false);

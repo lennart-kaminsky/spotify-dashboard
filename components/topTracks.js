@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
 import useFilterStore from "@/stores/filterStore";
+import useSpotifyStore from "@/stores/spotifyStore";
+import useScrollPositionStore from "@/stores/scrollPositionStore";
+import handleScroll from "@/utils/handleScroll";
 import TimeRange from "@/components/timeRange";
 import {
   NoStyleButton,
@@ -14,46 +16,55 @@ import {
   StyledArtist,
   StyledListItemLink,
 } from "@/components/top.Styled";
-import handleScroll from "@/utils/handleScroll";
-import useScrollPositionStore from "@/stores/scrollPositionStore";
 
 export default function TopTracks() {
-  const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
-  const [topTracks, setTopTracks] = useState([]);
-  const [loadingTracks, setLoadingTracks] = useState(false);
+  const { topTracks, setTopTracks } = useSpotifyStore();
   const { trackTimeRange, trackLimit, setTrackLimit } = useFilterStore();
-
-  const topList = useRef(null);
-
   const { tracksTopListPosition, setTracksTopListPosition } =
     useScrollPositionStore();
+  const [loadedTracks, setLoadedTracks] = useState(false);
+
+  const topList = useRef(null);
+  const topTracksLength = topTracks[trackTimeRange].slice(0, trackLimit).length;
 
   useEffect(() => {
     async function getTopTracks() {
-      setLoadingTracks(false);
+      setLoadedTracks(false);
       try {
         if (mySpotifyApi.getAccessToken()) {
-          const _topTracks = await mySpotifyApi.getMyTopTracks({
-            time_range: trackTimeRange,
-            limit: trackLimit,
+          const _topTracksLong = await mySpotifyApi.getMyTopTracks({
+            time_range: "long_term",
+            limit: 50,
           });
-          setTopTracks(_topTracks.body.items);
-          setLoadingTracks(true);
+          const _topTracksMedium = await mySpotifyApi.getMyTopTracks({
+            time_range: "medium_term",
+            limit: 50,
+          });
+          const _topTracksShort = await mySpotifyApi.getMyTopTracks({
+            time_range: "short_term",
+            limit: 50,
+          });
+          setTopTracks({
+            long_term: _topTracksLong.body.items,
+            medium_term: _topTracksMedium.body.items,
+            short_term: _topTracksShort.body.items,
+          });
+          setLoadedTracks(true);
         }
       } catch (error) {
         console.error("Something went wrong!", error);
       }
     }
     getTopTracks();
-  }, [session, mySpotifyApi, trackTimeRange, trackLimit]);
+  }, []);
 
   useEffect(() => {
-    if (topList.current && loadingTracks) {
+    if (topList.current && loadedTracks) {
       const position = tracksTopListPosition[trackTimeRange];
       topList.current.scrollTop = position;
     }
-  }, [topList.current, trackTimeRange, loadingTracks]);
+  }, [topList.current, trackTimeRange, loadedTracks]);
 
   return (
     <>
@@ -64,7 +75,7 @@ export default function TopTracks() {
           handleScroll(topList, setTracksTopListPosition, trackTimeRange)
         }
       >
-        {topTracks.map((track, index) => (
+        {topTracks[trackTimeRange].slice(0, trackLimit).map((track, index) => (
           <li key={track.id}>
             <StyledListItemLink href={`/tracks/${track.id}`}>
               <StyledListImage
@@ -91,14 +102,14 @@ export default function TopTracks() {
             </StyledListItemLink>
           </li>
         ))}
-        {topTracks.length > 20 && (
+        {topTracksLength > 20 && (
           <NoStyleListItem>
             <NoStyleButton onClick={() => setTrackLimit(trackLimit - 10)}>
               less
             </NoStyleButton>
           </NoStyleListItem>
         )}
-        {topTracks.length < 50 && topTracks.length === trackLimit && (
+        {topTracksLength < 50 && topTracksLength === trackLimit && (
           <NoStyleListItem>
             <NoStyleButton onClick={() => setTrackLimit(trackLimit + 10)}>
               more

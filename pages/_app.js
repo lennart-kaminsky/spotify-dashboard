@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { SessionProvider } from "next-auth/react";
 import useLocalStorageState from "use-local-storage-state";
-import useSessionStorageState from "use-session-storage-state";
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "@/styles/styles";
 import getTheme from "@/utils/getTheme";
@@ -11,16 +9,9 @@ export default function App({ Component, pageProps }) {
   const [theme, setTheme] = useLocalStorageState("theme", {
     defaultValue: "darkTheme",
   });
-  const [prevPage, setPrevPage] = useSessionStorageState("prevPage", {
-    defaultValue: "/",
-  });
 
   function handleSetTheme(theme) {
     setTheme(theme);
-  }
-
-  function handleSetPrevPage(page) {
-    setPrevPage(page);
   }
 
   return (
@@ -32,9 +23,9 @@ export default function App({ Component, pageProps }) {
             <Component
               {...pageProps}
               theme={theme}
-              prevPage={prevPage}
+              // prevPage={prevPage}
               onSetTheme={handleSetTheme}
-              onSetPrevPage={handleSetPrevPage}
+              // onSetPrevPage={handleSetPrevPage}
             />
           </Layout>
         </SessionProvider>
