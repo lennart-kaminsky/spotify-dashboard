@@ -21,6 +21,7 @@ export default function TopTracks() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [topTracks, setTopTracks] = useState([]);
+  const [loadingTracks, setLoadingTracks] = useState(false);
   const { trackTimeRange, trackLimit, setTrackLimit } = useFilterStore();
 
   const topList = useRef(null);
@@ -30,6 +31,7 @@ export default function TopTracks() {
 
   useEffect(() => {
     async function getTopTracks() {
+      setLoadingTracks(false);
       try {
         if (mySpotifyApi.getAccessToken()) {
           const _topTracks = await mySpotifyApi.getMyTopTracks({
@@ -37,6 +39,7 @@ export default function TopTracks() {
             limit: trackLimit,
           });
           setTopTracks(_topTracks.body.items);
+          setLoadingTracks(true);
         }
       } catch (error) {
         console.error("Something went wrong!", error);
@@ -46,20 +49,20 @@ export default function TopTracks() {
   }, [session, mySpotifyApi, trackTimeRange, trackLimit]);
 
   useEffect(() => {
-    if (topList.current) {
-      topList.current.scrollTo({
-        top: tracksTopListPosition,
-        behavior: "smooth",
-      });
+    if (topList.current && loadingTracks) {
+      const position = tracksTopListPosition[trackTimeRange];
+      topList.current.scrollTop = position;
     }
-  }, [topList.current]);
+  }, [topList.current, trackTimeRange, loadingTracks]);
 
   return (
     <>
       <TimeRange track />
       <StyledTopList
         ref={topList}
-        onScroll={() => handleScroll(topList, setTracksTopListPosition)}
+        onScroll={() =>
+          handleScroll(topList, setTracksTopListPosition, trackTimeRange)
+        }
       >
         {topTracks.map((track, index) => (
           <li key={track.id}>

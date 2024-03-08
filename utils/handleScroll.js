@@ -1,6 +1,10 @@
-export default function handleScroll(scrollElement, handleSetScrollPosition) {
+export default function handleScroll(
+  scrollElement,
+  setTopListPosition,
+  range
+) {
   if (scrollElement.current) {
     const { scrollTop } = scrollElement.current;
-    handleSetScrollPosition(scrollTop);
+    setTopListPosition(scrollTop, range);
   }
 }
