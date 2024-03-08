@@ -16,7 +16,6 @@ export default function TimeRange({ artist, track }) {
   }
 
   function onClick(range) {
-    console.log("range", range);
     if (artist) return setArtistTimeRange(range);
     if (track) return setTrackTimeRange(range);
   }

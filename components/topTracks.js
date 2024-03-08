@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import useSpotify from "@/hooks/useSpotify";
 import useFilterStore from "@/stores/filterStore";
@@ -14,12 +14,19 @@ import {
   StyledArtist,
   StyledListItemLink,
 } from "@/components/top.Styled";
+import handleScroll from "@/utils/handleScroll";
+import useScrollPositionStore from "@/stores/scrollPositionStore";
 
 export default function TopTracks() {
   const { data: session } = useSession();
   const mySpotifyApi = useSpotify();
   const [topTracks, setTopTracks] = useState([]);
   const { trackTimeRange, trackLimit, setTrackLimit } = useFilterStore();
+
+  const topList = useRef(null);
+
+  const { tracksTopListPosition, setTracksTopListPosition } =
+    useScrollPositionStore();
 
   useEffect(() => {
     async function getTopTracks() {
@@ -38,10 +45,22 @@ export default function TopTracks() {
     getTopTracks();
   }, [session, mySpotifyApi, trackTimeRange, trackLimit]);
 
+  useEffect(() => {
+    if (topList.current) {
+      topList.current.scrollTo({
+        top: tracksTopListPosition,
+        behavior: "smooth",
+      });
+    }
+  }, [topList.current]);
+
   return (
     <>
       <TimeRange track />
-      <StyledTopList>
+      <StyledTopList
+        ref={topList}
+        onScroll={() => handleScroll(topList, setTracksTopListPosition)}
+      >
         {topTracks.map((track, index) => (
           <li key={track.id}>
             <StyledListItemLink href={`/tracks/${track.id}`}>
