@@ -5,6 +5,7 @@ import useSpotifyStore from "@/stores/spotifyStore";
 import useScrollPositionStore from "@/stores/scrollPositionStore";
 import handleScroll from "@/utils/handleScroll";
 import TimeRange from "@/components/timeRange";
+import TopListSkeleton from "@/components/topListSkeleton";
 import {
   NoStyleButton,
   NoStyleListItem,
@@ -14,17 +15,18 @@ import {
   StyledTopNumber,
   StyledTopNumberContainer,
 } from "@/components/top.Styled";
-import TopListSkeleton from "./topListSkeleton";
 
 export default function TopArtists() {
   const mySpotifyApi = useSpotify();
+
+  const [loading, setLoading] = useState(false);
+  const topList = useRef(null);
+
   const { topArtists, setTopArtists } = useSpotifyStore();
   const { artistTimeRange, artistLimit, setArtistLimit } = useFilterStore();
   const { artistsTopListPosition, setArtistsTopListPosition } =
     useScrollPositionStore();
-  const [loading, setLoading] = useState(false);
 
-  const topList = useRef(null);
   const topArtistsLength = topArtists[artistTimeRange].slice(
     0,
     artistLimit

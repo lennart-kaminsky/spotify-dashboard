@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { devices } from "@/styles/devices";
 
 export const StyledTopList = styled.ol`
+  list-style: none;
   position: fixed;
   height: 100%;
   width: 100%;
