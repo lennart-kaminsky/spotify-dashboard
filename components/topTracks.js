@@ -57,7 +57,9 @@ export default function TopTracks() {
         console.error("Something went wrong!", error);
       }
     }
-    getTopTracks();
+    if (topTracks.long_term.length === 0) {
+      getTopTracks();
+    } else setLoading(false);
   }, []);
 
   useEffect(() => {

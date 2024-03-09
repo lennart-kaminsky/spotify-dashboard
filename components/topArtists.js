@@ -58,7 +58,9 @@ export default function TopArtists() {
         console.error("Something went wrong!", error);
       }
     }
-    getTopArtists();
+    if (topArtists.long_term.length === 0) {
+      getTopArtists();
+    } else setLoading(false);
   }, []);
 
   useEffect(() => {

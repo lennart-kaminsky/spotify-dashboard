@@ -32,7 +32,7 @@ const StyledListItemSkeleton = styled.li`
 `;
 
 const StyledImageSkeleton = styled.div`
-  width: 50px;
+  width: 55px;
   height: 50px;
   background-color: ${({ theme }) => theme.hColor};
   opacity: 20%;
