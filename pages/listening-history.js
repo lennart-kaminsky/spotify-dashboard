@@ -135,7 +135,7 @@ const StyledFixedHeadline = styled.h2`
 const StyledRecentlyList = styled(StyledTopList)`
   padding-inline-end: 4%;
   @media screen and (min-width: ${devices.desktop + "px"}) {
-    padding-inline: 300px;
+    width: 40%;
   }
 `;
 
