@@ -14,6 +14,7 @@ export const StyledInfoImage = styled(Image)`
   border-radius: ${({ $record }) => ($record ? "5px" : "100%")};
   width: 150px;
   height: 150px;
+  object-fit: cover;
   @media screen and (min-width: ${devices.desktop + "px"}) {
     width: 300px;
     height: 300px;

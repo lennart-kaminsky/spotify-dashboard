@@ -63,6 +63,7 @@ export const StyledArtist = styled.span`
 
 export const StyledListImage = styled(Image)`
   border-radius: 5px;
+  object-fit: cover;
 `;
 
 export const StyledTopNumberContainer = styled.div`

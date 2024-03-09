@@ -18,6 +18,8 @@ export default function ListeningHistory() {
   const mySpotifyApi = useSpotify();
   const [recentTracksInfo, setRecentTracksInfo] = useState([]);
 
+  const [loading, setLoading] = useState(false);
+
   const { setPrevPage } = useSettingsStore();
   useEffect(() => {
     setPrevPage("/listening-history");
@@ -25,6 +27,7 @@ export default function ListeningHistory() {
 
   useEffect(() => {
     async function getRecentTracks() {
+      setLoading(true);
       try {
         if (mySpotifyApi.getAccessToken()) {
           const _recentTracks = await mySpotifyApi.getMyRecentlyPlayedTracks({
@@ -32,6 +35,7 @@ export default function ListeningHistory() {
           });
           setRecentTracksInfo(_recentTracks.body.items);
         }
+        setLoading(false);
       } catch (error) {
         console.log("Something went wrong!", error);
       }
@@ -47,37 +51,49 @@ export default function ListeningHistory() {
 
     return time + " " + month + "-" + day + "-" + year;
   }
+
   return (
     <StyledFlexContainer>
       <StyledFixedHeadline>Listening History</StyledFixedHeadline>
       <BackLink>Back to Dashboard</BackLink>
-      <StyledRecentlyList>
-        {recentTracksInfo.map((info) => (
-          <li key={info.played_at}>
-            <StyledRecentlyListItemLink href={`/tracks/${info.track.id}`}>
-              <StyledRecentlyImage
-                src={info.track.album.images[0].url}
-                alt="Record Cover"
-                width={50}
-                height={50}
-              />
-              <StyledTrackInfo>
-                <StyledPlayedAt>{playedAt(info.played_at)}</StyledPlayedAt>
-                <span>{info.track.name + " "}</span>
-                <StyledArtist>
-                  {info.track?.artists.map((artist, index) => {
-                    if (index === 0) {
-                      return artist.name;
-                    } else {
-                      return ", " + artist.name;
-                    }
-                  })}
-                </StyledArtist>
-              </StyledTrackInfo>
+      {loading ? (
+        <StyledRecentlyList>
+          {Array.from({ length: 20 }, (_, index) => (
+            <StyledRecentlyListItemLink as="li" key={index}>
+              <StyledImageSkeleton />
+              <StyledTextSkeleton />
             </StyledRecentlyListItemLink>
-          </li>
-        ))}
-      </StyledRecentlyList>
+          ))}
+        </StyledRecentlyList>
+      ) : (
+        <StyledRecentlyList>
+          {recentTracksInfo.map((info) => (
+            <li key={info.played_at}>
+              <StyledRecentlyListItemLink href={`/tracks/${info.track.id}`}>
+                <StyledRecentlyImage
+                  src={info.track.album.images[0].url}
+                  alt="Record Cover"
+                  width={50}
+                  height={50}
+                />
+                <StyledTrackInfo>
+                  <StyledPlayedAt>{playedAt(info.played_at)}</StyledPlayedAt>
+                  <span>{info.track.name + " "}</span>
+                  <StyledArtist>
+                    {info.track?.artists.map((artist, index) => {
+                      if (index === 0) {
+                        return artist.name;
+                      } else {
+                        return ", " + artist.name;
+                      }
+                    })}
+                  </StyledArtist>
+                </StyledTrackInfo>
+              </StyledRecentlyListItemLink>
+            </li>
+          ))}
+        </StyledRecentlyList>
+      )}
     </StyledFlexContainer>
   );
 }
@@ -118,4 +134,23 @@ const StyledRecentlyImage = styled(StyledListImage)`
 const StyledPlayedAt = styled.span`
   color: ${({ theme }) => theme.hColor};
   font-size: 0.8rem;
+`;
+
+const StyledImageSkeleton = styled.div`
+  width: 70px;
+  height: 70px;
+  background-color: ${({ theme }) => theme.hColor};
+  opacity: 20%;
+  border-radius: 5px;
+`;
+const StyledTextSkeleton = styled.div`
+  width: 100%;
+  height: 30px;
+  background-color: ${({ theme }) => theme.fontColor};
+  opacity: 20%;
+  border-radius: 5px;
+  margin-inline-end: 2%;
+  @media screen and (min-width: ${devices.desktop + "px"}) {
+    min-width: 400px;
+  }
 `;
