@@ -334,8 +334,8 @@ const StyledLoadingSkeleton = styled.div`
 `;
 
 const StyledImageSkeleton = styled.div`
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   border-radius: 5px;
   background-color: ${({ theme }) => theme.hColor};
   opacity: 20%;
