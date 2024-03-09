@@ -16,6 +16,7 @@ import {
   StyledArtist,
   StyledListItemLink,
 } from "@/components/top.Styled";
+import TopListSkeleton from "./topListSkeleton";
 
 export default function TopTracks() {
   const mySpotifyApi = useSpotify();
@@ -23,14 +24,14 @@ export default function TopTracks() {
   const { trackTimeRange, trackLimit, setTrackLimit } = useFilterStore();
   const { tracksTopListPosition, setTracksTopListPosition } =
     useScrollPositionStore();
-  const [loadedTracks, setLoadedTracks] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const topList = useRef(null);
   const topTracksLength = topTracks[trackTimeRange].slice(0, trackLimit).length;
 
   useEffect(() => {
     async function getTopTracks() {
-      setLoadedTracks(false);
+      setLoading(true);
       try {
         if (mySpotifyApi.getAccessToken()) {
           const _topTracksLong = await mySpotifyApi.getMyTopTracks({
@@ -50,7 +51,7 @@ export default function TopTracks() {
             medium_term: _topTracksMedium.body.items,
             short_term: _topTracksShort.body.items,
           });
-          setLoadedTracks(true);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Something went wrong!", error);
@@ -60,63 +61,69 @@ export default function TopTracks() {
   }, []);
 
   useEffect(() => {
-    if (topList.current && loadedTracks) {
+    if (topList.current && loading) {
       const position = tracksTopListPosition[trackTimeRange];
       topList.current.scrollTop = position;
     }
-  }, [topList.current, trackTimeRange, loadedTracks]);
+  }, [topList.current, trackTimeRange, loading]);
 
   return (
     <>
       <TimeRange track />
-      <StyledTopList
-        ref={topList}
-        onScroll={() =>
-          handleScroll(topList, setTracksTopListPosition, trackTimeRange)
-        }
-      >
-        {topTracks[trackTimeRange].slice(0, trackLimit).map((track, index) => (
-          <li key={track.id}>
-            <StyledListItemLink href={`/tracks/${track.id}`}>
-              <StyledListImage
-                src={track.album.images[0].url}
-                alt="Record cover"
-                width={50}
-                height={50}
-              />
-              <StyledTrackInfo>
-                <span>{track.name + " "}</span>
-                <StyledArtist>
-                  {track?.artists.map((artist, index) => {
-                    if (index === 0) {
-                      return artist.name;
-                    } else {
-                      return ", " + artist.name;
-                    }
-                  })}
-                </StyledArtist>
-              </StyledTrackInfo>
-              <StyledTopNumberContainer>
-                <StyledTopNumber>{index + 1}</StyledTopNumber>
-              </StyledTopNumberContainer>
-            </StyledListItemLink>
-          </li>
-        ))}
-        {topTracksLength > 20 && (
-          <NoStyleListItem>
-            <NoStyleButton onClick={() => setTrackLimit(trackLimit - 10)}>
-              less
-            </NoStyleButton>
-          </NoStyleListItem>
-        )}
-        {topTracksLength < 50 && topTracksLength === trackLimit && (
-          <NoStyleListItem>
-            <NoStyleButton onClick={() => setTrackLimit(trackLimit + 10)}>
-              more
-            </NoStyleButton>
-          </NoStyleListItem>
-        )}
-      </StyledTopList>
+      {loading ? (
+        <TopListSkeleton />
+      ) : (
+        <StyledTopList
+          ref={topList}
+          onScroll={() =>
+            handleScroll(topList, setTracksTopListPosition, trackTimeRange)
+          }
+        >
+          {topTracks[trackTimeRange]
+            .slice(0, trackLimit)
+            .map((track, index) => (
+              <li key={track.id}>
+                <StyledListItemLink href={`/tracks/${track.id}`}>
+                  <StyledListImage
+                    src={track.album.images[0].url}
+                    alt="Record cover"
+                    width={50}
+                    height={50}
+                  />
+                  <StyledTrackInfo>
+                    <span>{track.name + " "}</span>
+                    <StyledArtist>
+                      {track?.artists.map((artist, index) => {
+                        if (index === 0) {
+                          return artist.name;
+                        } else {
+                          return ", " + artist.name;
+                        }
+                      })}
+                    </StyledArtist>
+                  </StyledTrackInfo>
+                  <StyledTopNumberContainer>
+                    <StyledTopNumber>{index + 1}</StyledTopNumber>
+                  </StyledTopNumberContainer>
+                </StyledListItemLink>
+              </li>
+            ))}
+          {topTracksLength > 20 && (
+            <NoStyleListItem>
+              <NoStyleButton onClick={() => setTrackLimit(trackLimit - 10)}>
+                less
+              </NoStyleButton>
+            </NoStyleListItem>
+          )}
+          {topTracksLength < 50 && topTracksLength === trackLimit && (
+            <NoStyleListItem>
+              <NoStyleButton onClick={() => setTrackLimit(trackLimit + 10)}>
+                more
+              </NoStyleButton>
+            </NoStyleListItem>
+          )}
+        </StyledTopList>
+      )}
     </>
   );
 }

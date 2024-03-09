@@ -14,6 +14,7 @@ import {
   StyledTopNumber,
   StyledTopNumberContainer,
 } from "@/components/top.Styled";
+import TopListSkeleton from "./topListSkeleton";
 
 export default function TopArtists() {
   const mySpotifyApi = useSpotify();
@@ -21,7 +22,7 @@ export default function TopArtists() {
   const { artistTimeRange, artistLimit, setArtistLimit } = useFilterStore();
   const { artistsTopListPosition, setArtistsTopListPosition } =
     useScrollPositionStore();
-  const [loadedArtists, setLoadedArtists] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const topList = useRef(null);
   const topArtistsLength = topArtists[artistTimeRange].slice(
@@ -31,7 +32,7 @@ export default function TopArtists() {
 
   useEffect(() => {
     async function getTopArtists() {
-      setLoadedArtists(false);
+      setLoading(true);
       try {
         if (mySpotifyApi.getAccessToken()) {
           const _topArtistsLong = await mySpotifyApi.getMyTopArtists({
@@ -51,7 +52,7 @@ export default function TopArtists() {
             medium_term: _topArtistsMedium.body.items,
             short_term: _topArtistsShort.body.items,
           });
-          setLoadedArtists(true);
+          setLoading(false);
         }
       } catch (error) {
         console.error("Something went wrong!", error);
@@ -61,55 +62,59 @@ export default function TopArtists() {
   }, []);
 
   useEffect(() => {
-    if (topList.current && loadedArtists) {
+    if (topList.current && loading) {
       const position = artistsTopListPosition[artistTimeRange];
       topList.current.scrollTop = position;
     }
-  }, [topList.current, artistTimeRange, loadedArtists]);
+  }, [topList.current, artistTimeRange, loading]);
 
   return (
     <>
       <TimeRange artist />
-      <StyledTopList
-        ref={topList}
-        onScroll={() =>
-          handleScroll(topList, setArtistsTopListPosition, artistTimeRange)
-        }
-      >
-        {topArtists[artistTimeRange]
-          .slice(0, artistLimit)
-          .map((artist, index) => (
-            <li key={artist.id}>
-              <StyledListItemLink href={`/artists/${artist.id}`}>
-                <StyledListImage
-                  src={artist.images[0].url}
-                  alt="Picture of the artist"
-                  width={50}
-                  height={50}
-                />
-                <span>{artist.name}</span>
-                <StyledTopNumberContainer>
-                  <StyledTopNumber>{index + 1}</StyledTopNumber>
-                </StyledTopNumberContainer>
-              </StyledListItemLink>
-            </li>
-          ))}
+      {loading ? (
+        <TopListSkeleton />
+      ) : (
+        <StyledTopList
+          ref={topList}
+          onScroll={() =>
+            handleScroll(topList, setArtistsTopListPosition, artistTimeRange)
+          }
+        >
+          {topArtists[artistTimeRange]
+            .slice(0, artistLimit)
+            .map((artist, index) => (
+              <li key={artist.id}>
+                <StyledListItemLink href={`/artists/${artist.id}`}>
+                  <StyledListImage
+                    src={artist.images[0].url}
+                    alt="Picture of the artist"
+                    width={50}
+                    height={50}
+                  />
+                  <span>{artist.name}</span>
+                  <StyledTopNumberContainer>
+                    <StyledTopNumber>{index + 1}</StyledTopNumber>
+                  </StyledTopNumberContainer>
+                </StyledListItemLink>
+              </li>
+            ))}
 
-        {topArtistsLength > 20 && (
-          <NoStyleListItem>
-            <NoStyleButton onClick={() => setArtistLimit(artistLimit - 10)}>
-              less
-            </NoStyleButton>
-          </NoStyleListItem>
-        )}
-        {topArtistsLength < 50 && topArtistsLength === artistLimit && (
-          <NoStyleListItem>
-            <NoStyleButton onClick={() => setArtistLimit(artistLimit + 10)}>
-              more
-            </NoStyleButton>
-          </NoStyleListItem>
-        )}
-      </StyledTopList>
+          {topArtistsLength > 20 && (
+            <NoStyleListItem>
+              <NoStyleButton onClick={() => setArtistLimit(artistLimit - 10)}>
+                less
+              </NoStyleButton>
+            </NoStyleListItem>
+          )}
+          {topArtistsLength < 50 && topArtistsLength === artistLimit && (
+            <NoStyleListItem>
+              <NoStyleButton onClick={() => setArtistLimit(artistLimit + 10)}>
+                more
+              </NoStyleButton>
+            </NoStyleListItem>
+          )}
+        </StyledTopList>
+      )}
     </>
   );
 }
