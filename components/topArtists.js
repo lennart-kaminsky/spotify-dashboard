@@ -22,7 +22,7 @@ export default function TopArtists() {
   const { artistTimeRange, artistLimit, setArtistLimit } = useFilterStore();
   const { artistsTopListPosition, setArtistsTopListPosition } =
     useScrollPositionStore();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const topList = useRef(null);
   const topArtistsLength = topArtists[artistTimeRange].slice(

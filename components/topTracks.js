@@ -24,7 +24,7 @@ export default function TopTracks() {
   const { trackTimeRange, trackLimit, setTrackLimit } = useFilterStore();
   const { tracksTopListPosition, setTracksTopListPosition } =
     useScrollPositionStore();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const topList = useRef(null);
   const topTracksLength = topTracks[trackTimeRange].slice(0, trackLimit).length;
