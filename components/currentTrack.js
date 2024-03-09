@@ -14,6 +14,7 @@ export default function CurrentTrack() {
   const [currentTrack, setCurrentTrack] = useState({});
   const [playbackState, setCurrentlyPlayingType] = useState({});
   const [recentlyPlayedTrack, setRecentlyPlayedTrack] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const trackRef = useRef(null);
   const trackHorizontalOverflow = useHorizontalOverflow(
@@ -28,6 +29,7 @@ export default function CurrentTrack() {
   );
 
   useEffect(() => {
+    setLoading(true);
     async function getCurrentTrack() {
       try {
         if (mySpotifyApi.getAccessToken()) {
@@ -51,13 +53,12 @@ export default function CurrentTrack() {
       } catch (error) {
         console.error("Something went wrong!", error);
       }
+      setLoading(false);
     }
     getCurrentTrack();
     const intervalId = setInterval(getCurrentTrack, 5000);
     return () => clearInterval(intervalId);
   }, [session, mySpotifyApi]);
-
-  const isReady = Object.keys(recentlyPlayedTrack).length;
 
   const isPlayingTrack =
     playbackState &&
@@ -66,7 +67,12 @@ export default function CurrentTrack() {
 
   return (
     <StyledPlayer>
-      {isReady && (
+      {loading ? (
+        <StyledLoadingSkeleton>
+          <StyledImageSkeleton />
+          <StyledTextSkeleton />
+        </StyledLoadingSkeleton>
+      ) : (
         <StyledPlayerLink
           href={`/tracks/${
             isPlayingTrack ? currentTrack.id : recentlyPlayedTrack.id
@@ -75,12 +81,12 @@ export default function CurrentTrack() {
           <StyledImage
             src={
               isPlayingTrack
-                ? currentTrack?.album.images[0].url
-                : recentlyPlayedTrack?.album.images[0].url
+                ? currentTrack?.album.images[2].url
+                : recentlyPlayedTrack?.album.images[2].url
             }
             alt="album cover"
-            width={640}
-            height={640}
+            width={50}
+            height={50}
             priority
           />
           <StyledInnerPlayerLinkContainer>
@@ -196,7 +202,7 @@ export default function CurrentTrack() {
 
 const StyledPlayer = styled.section`
   width: 100%;
-  height: 70px;
+  height: 65px;
   position: fixed;
   bottom: 0;
   margin-inline: -2%;
@@ -219,12 +225,12 @@ const StyledPlayerLink = styled(Link)`
   overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 2%;
+  gap: 1rem;
 `;
 
 const StyledImage = styled(Image)`
-  width: 55px;
-  height: 55px;
+  width: 50px;
+  height: 50px;
   border-radius: 5px;
 `;
 
@@ -318,4 +324,29 @@ const StyledAnimatedArtist = styled(StyledArtist)`
 
 const StyledRecentlyLink = styled(Link)`
   margin-inline-start: auto;
+`;
+
+const StyledLoadingSkeleton = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+const StyledImageSkeleton = styled.div`
+  width: 55px;
+  height: 55px;
+  border-radius: 5px;
+  background-color: ${({ theme }) => theme.hColor};
+  opacity: 20%;
+`;
+
+const StyledTextSkeleton = styled.div`
+  width: 100%;
+  max-width: 700px;
+  height: 25px;
+  background-color: ${({ theme }) => theme.fontColor};
+  opacity: 20%;
+  border-radius: 5px;
+  margin-inline-end: 1rem;
 `;

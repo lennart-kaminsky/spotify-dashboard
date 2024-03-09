@@ -64,7 +64,7 @@ export default function TopArtists() {
   }, []);
 
   useEffect(() => {
-    if (topList.current && loading) {
+    if (topList.current && !loading) {
       const position = artistsTopListPosition[artistTimeRange];
       topList.current.scrollTop = position;
     }
@@ -88,7 +88,7 @@ export default function TopArtists() {
               <li key={artist.id}>
                 <StyledListItemLink href={`/artists/${artist.id}`}>
                   <StyledListImage
-                    src={artist.images[0].url}
+                    src={artist.images[2].url}
                     alt="Picture of the artist"
                     width={50}
                     height={50}

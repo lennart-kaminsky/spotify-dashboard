@@ -63,7 +63,7 @@ export default function TopTracks() {
   }, []);
 
   useEffect(() => {
-    if (topList.current && loading) {
+    if (topList.current && !loading) {
       const position = tracksTopListPosition[trackTimeRange];
       topList.current.scrollTop = position;
     }
@@ -87,7 +87,7 @@ export default function TopTracks() {
               <li key={track.id}>
                 <StyledListItemLink href={`/tracks/${track.id}`}>
                   <StyledListImage
-                    src={track.album.images[0].url}
+                    src={track.album.images[2].url}
                     alt="Record cover"
                     width={50}
                     height={50}
