@@ -82,6 +82,7 @@ export default function TopArtists() {
             <li key={artist.id}>
               <StyledListItemLink href={`/artists/${artist.id}`}>
                 <StyledListImage
+                  unoptimized
                   src={artist.images[0].url}
                   alt="Picture of the artist"
                   width={50}
