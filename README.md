@@ -14,7 +14,7 @@ Some things i did for UX/UI:
 
 - storing scroll positions and filter settings of single components 
 - loading skeletons
-- responsive app
+- responsive pages and components
 - colour modes
 - 404 page
 
