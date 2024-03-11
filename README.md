@@ -3,6 +3,9 @@
 This is a spotify dashboard that shows your listening habits like top artists, top tracks and the songs you recently listened to.
 For now you can only sign up on [istillskipoversongs.com](https://www.istillskipoversongs.com/) after i added your spotify mail address manually because the app is in [spotify developer mode](https://developer.spotify.com/documentation/web-api/concepts/quota-modes). I will request extended quota mode so that everyone can check it out without asking me before.
 
+<img width="1920" alt="screenshot of spotify dashboard" src="https://raw.githubusercontent.com/lennart-kaminsky/lennart-kaminsky/main/assets/spotify-dashboard.png">
+
+
 ## About
 
 I always wanted to do a project with the Spotify API because i love music a lot and think it's a great project for trying new tools and improving skills. I kept a simple design so I could focus even more on details and user experience.
