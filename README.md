@@ -1,8 +1,8 @@
 # i still skip over songs - Spotify Dashboard
 
-This is a spotify dashboard that shows your listening habits like top artists, top tracks and the songs you recently listened to.
+This is a spotify dashboard that shows your listening habits such as top artists, top tracks and the songs you recently listened to.
 
-For now you can only sign up on [istillskipoversongs.com](https://www.istillskipoversongs.com/) after I added your spotify account's mail address manually because the app is in [spotify developer mode](https://developer.spotify.com/documentation/web-api/concepts/quota-modes). I will request extended quota mode so that everyone can check it out without asking me before.
+For now you can only sign up on [istillskipoversongs.com](https://www.istillskipoversongs.com/) after I added your spotify account's mail address manually as the app is in [spotify developer mode](https://developer.spotify.com/documentation/web-api/concepts/quota-modes). I will request extended quota mode so that everyone can check it out without asking me before.
 
 Alternatively you can clone this repo, create a spotify app yourself and run the app locally. For more info check below.
 
@@ -18,7 +18,7 @@ Some things I did for better UX/UI:
 - storing scroll positions and filter settings of single components 
 - loading skeletons
 - responsive pages and components
-- text carousel for too long song titles in the player component (with custom hook for checking if an element has overflow)
+- text carousel for longer song titles in the player component (with custom hook for checking if an element has overflow)
 - colour modes
 - 404 page
 
@@ -38,7 +38,7 @@ From time to time I also worked on performance and reduced the amount of API cal
 
 ## Running the app locally
 
-You can also clone the repository and run the app locally. But do so you need to do the following things in advance:
+You can also clone the repository and run the app locally. But to do so you need to do the following things in advance:
 
 1. Go to the [Spotify for Developers Dashboard](https://developer.spotify.com/dashboard) and create a new app
     - Choose a name for your app and write a short description
@@ -54,7 +54,7 @@ You can also clone the repository and run the app locally. But do so you need to
        SPOTIFY_REDIRECT_URI=http://localhost:3000/api/auth/callback/spotify
        ```
     - as [next auth secret](https://next-auth.js.org/configuration/options) you can use a random string
-    - you find your Spotidy Client ID and Client Secret under Spotify for Developers - Dashboard - Your app - Settings
+    - you find your Spotify Client ID and Client Secret under Spotify for Developers - Dashboard - Your app - Settings
 3. Install the app locally ( `npm i` )
 4. Run the development server ( `npm run dev` )
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
