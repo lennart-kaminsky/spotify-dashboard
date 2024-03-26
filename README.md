@@ -18,9 +18,7 @@ Some things i did for UX/UI:
 - colour modes
 - 404 page
 
-From time to time I also worked on performance and reduced the amount of API calls that are made while using the app. So now all the data about the top tracks and artists are fetched once until the user refreshes the app, because during the time of navigating through those listening habits won't change.
-
-The currently playing song is still fetched every 5 seconds and the API call for the most recent songs is only made when the user navigates to the listening history.
+From time to time I also worked on performance and reduced the amount of API calls that are made while using the app. So in the end i chose to fetch all the data of the top tracks and artists once when loading the app because during the time of exploring the dashboard this data most likely won't change. 
 
 ### Technologies and Tools:
 
