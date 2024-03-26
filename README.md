@@ -1,20 +1,24 @@
 # i still skip over songs - Spotify Dashboard
 
 This is a spotify dashboard that shows your listening habits like top artists, top tracks and the songs you recently listened to.
-For now you can only sign up on [istillskipoversongs.com](https://www.istillskipoversongs.com/) after I added your spotify mail address manually because the app is in [spotify developer mode](https://developer.spotify.com/documentation/web-api/concepts/quota-modes). I will request extended quota mode so that everyone can check it out without asking me before.
+
+For now you can only sign up on [istillskipoversongs.com](https://www.istillskipoversongs.com/) after I added your spotify account's mail address manually because the app is in [spotify developer mode](https://developer.spotify.com/documentation/web-api/concepts/quota-modes). I will request extended quota mode so that everyone can check it out without asking me before.
+
+Alternatively you can clone this repo, create a spotify app yourself and run the app locally. For more info check below.
 
 <img width="1920" alt="screenshot of spotify dashboard" src="https://raw.githubusercontent.com/lennart-kaminsky/lennart-kaminsky/main/assets/spotify-dashboard-screenshots.png">
 
 
 ## About
 
-I always wanted to do a project with the Spotify API because i love music a lot and think it's a great project for trying new tools and improving skills. I kept a simple design so I could focus even more on details and user experience.
+I always wanted to do a project with the Spotify API because I enjoy music a lot and think it's a great project for trying new tools and improving skills. I kept a simple design so I could focus even more on details and user experience.
 
-Some things i did for UX/UI:
+Some things I did for better UX/UI:
 
 - storing scroll positions and filter settings of single components 
 - loading skeletons
 - responsive pages and components
+- text carousel for too long song titles in the player component (with custom hook for checking if an element has overflow)
 - colour modes
 - 404 page
 
